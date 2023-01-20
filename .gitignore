@@ -52,3 +52,36 @@ fabric.properties
 
 # *.iml
 # modules.xml
+
+
+### NetBeans ###
+
+# Created by https://github.com/github/gitignore/blob/main/Global/NetBeans.gitignore
+
+
+# User-specific stuff:
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+nbactions.xml
+nb-configuration.xml
+
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Maven #
+
+.classpath
+.project
+.settings/
