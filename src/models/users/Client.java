@@ -1,5 +1,4 @@
 package models.users;
-
 import java.util.Scanner;
 
 public class Client {
@@ -7,8 +6,9 @@ public class Client {
     private String DNI;
     private String name;
     private String lastName;
-
-    // Constructor void
+    private String mechanic;
+    private String plate;
+    private String maintenance;
 
     public Client() {
         ++this.id;
@@ -21,7 +21,15 @@ public class Client {
         ++this.id;
     }
 
-    // funtionals
+    public Client(String DNI, String name, String lastName, String mechanic, String plate, String maintenance) {
+        this.name = name;
+        this.lastName = lastName;
+        this.DNI = DNI;
+        this.mechanic = mechanic;
+        this.plate = plate;
+        this.maintenance = maintenance;
+        ++this.id;
+    }
 
     boolean isValidName(String name) {
         return name.matches("[A-Z][a-z]+");
@@ -30,11 +38,7 @@ public class Client {
     // Getters and Setters
 
     public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        return this.id;
     }
 
     public String getDNI() {
@@ -60,10 +64,10 @@ public class Client {
         }
 
         // valid name, no have numbers
-        if (isValidName(name)) {
+        if (!isValidName(name)) {
             this.name = name;
         } else {
-            throw new IllegalArgumentException("Name must have only letters");
+            throw new Exception("Name must have only letters");
         }
     }
 
@@ -77,54 +81,93 @@ public class Client {
         }
 
         // valid name, no have numbers
-        if (isValidName(lastName)) {
+        if (!isValidName(lastName)) {
             this.lastName = lastName;
         } else {
-            throw new IllegalArgumentException("Last name must have only letters");
+            throw new Exception("Last name must have only letters");
         }
     }
 
-    public void input(Scanner keybScanner) throws Exception {
-        boolean isValid = false;
-        // why use a do while? because we need to ask for the name at least once
+    public String getMechanic() {
+        return mechanic;
+    }
 
+    public void setMechanic(String mechanic) throws  Exception {
+
+        if(mechanic.length() <= 2) {
+            throw new Exception("Mechanic must have more than 2 characters");
+        }
+
+        if(!isValidName(mechanic)) {
+            throw new Exception("Mechanic must have only letters");
+        }else{
+            this.mechanic = mechanic;
+        }
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) throws Exception {
+        if(plate.length() <= 2) {
+            throw new Exception("Plate must have more than 2 characters");
+        }
+
+        if(!plate.matches("[A-Z]{3}[0-9]{3}")) {
+            throw new Exception("Plate must have 3 uppercase letters and 3 numbers");
+        }else{
+            this.plate = plate;
+        }
+    }
+
+    public String getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(String maintenance) throws Exception {
+        if(maintenance.length() <= 8) {
+            throw new Exception("Maintenance must have more than 8 characters");
+        }
+    }
+
+    public void input(Scanner reader) throws Exception {
+        boolean isValid = true;
+        // why use a do while? because we need
+        // to ask for the name at least once
         // ask for name
         // if name is not valid, ask again
+
         do {
+
             try {
+
                 System.out.println("Enter the name of the client");
-                this.setName(keybScanner.nextLine());
-                isValid = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } while (!isValid);
+                this.setName(reader.nextLine());
 
-        isValid = false;
-
-        do {
-            try {
                 System.out.println("Enter the last name of the client");
-                this.setLastName(keybScanner.nextLine());
-                isValid = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } while (!isValid);
+                this.setLastName(reader.nextLine());
 
-        isValid = false;
-
-        do {
-            try {
                 System.out.println("Enter the DNI of the client");
-                this.setDNI(keybScanner.nextLine());
-                isValid = true;
+                this.setDNI(reader.nextLine());
+
+                System.out.println("Enter the mechanic of the client");
+                this.setMechanic(reader.nextLine());
+
+                System.out.println("Enter the plate of the client");
+                this.setPlate(reader.nextLine());
+
+                System.out.println("Enter the maintenance of the client");
+                this.setMaintenance(reader.nextLine());
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                isValid = false;
             }
-        } while (!isValid);
 
+        } while (!isValid);
     }
+
     public void showDetails() {
         System.out.println("Client: " + this.name + " " + this.lastName + " DNI: " + this.DNI);
     }

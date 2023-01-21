@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class WorkShop {
 
     private int idWorkShop;
-
     Client client = new Client();
     private Date dateOfMaintenance;
     private String description;
