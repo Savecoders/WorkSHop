@@ -1,4 +1,5 @@
 package models.users;
+import utils.Validation;
 import java.util.Scanner;
 
 public class Client {
@@ -31,10 +32,6 @@ public class Client {
         ++this.id;
     }
 
-    boolean isValidName(String name) {
-        return name.matches("[A-Z][a-z]+");
-    }
-
     // Getters and Setters
 
     public int getId() {
@@ -46,7 +43,7 @@ public class Client {
     }
 
     public void setDNI(String DNI) throws Exception {
-        if (DNI.length() == 9) {
+        if (Validation.lenDNI(DNI)) {
             this.DNI = DNI;
         } else {
             throw new Exception("DNI must have 9 characters");
@@ -59,12 +56,12 @@ public class Client {
 
     public void setName(String name) throws Exception {
 
-        if (name.length() <= 2) {
+        if (Validation.lenName(name)) {
             throw new Exception("Name must have more than 2 characters");
         }
 
         // valid name, no have numbers
-        if (!isValidName(name)) {
+        if (Validation.isName(name)) {
             this.name = name;
         } else {
             throw new Exception("Name must have only letters");
@@ -76,12 +73,12 @@ public class Client {
     }
 
     public void setLastName(String lastName) throws Exception {
-        if (lastName.length() <= 2) {
+        if (Validation.lenName(lastName)) {
             throw new Exception("Last name must have more than 2 characters");
         }
 
         // valid name, no have numbers
-        if (!isValidName(lastName)) {
+        if (Validation.isName(lastName)) {
             this.lastName = lastName;
         } else {
             throw new Exception("Last name must have only letters");
@@ -94,11 +91,11 @@ public class Client {
 
     public void setMechanic(String mechanic) throws  Exception {
 
-        if(mechanic.length() <= 2) {
-            throw new Exception("Mechanic must have more than 2 characters");
+        if(Validation.lenName(mechanic) ) {
+            throw new Exception("Mechanic must have more than 3 characters");
         }
 
-        if(!isValidName(mechanic)) {
+        if(Validation.isName(mechanic)) {
             throw new Exception("Mechanic must have only letters");
         }else{
             this.mechanic = mechanic;
@@ -110,11 +107,11 @@ public class Client {
     }
 
     public void setPlate(String plate) throws Exception {
-        if(plate.length() <= 2) {
-            throw new Exception("Plate must have more than 2 characters");
+        if(Validation.isPlate(plate)) {
+            throw new Exception("Plate must have 7 characters");
         }
 
-        if(!plate.matches("[A-Z]{3}[0-9]{3}")) {
+        if(Validation.isPlateFormat(plate)) {
             throw new Exception("Plate must have 3 uppercase letters and 3 numbers");
         }else{
             this.plate = plate;
