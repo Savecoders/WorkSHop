@@ -1,9 +1,11 @@
 package models.users;
+// class of validations
 
 import utils.Validation;
-
+// the resources for the date
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
-
 import java.util.Date;
 
 public class Client {
@@ -14,7 +16,7 @@ public class Client {
     private String lastName;
     private String mechanic;
     private String plate;
-    private int capacityPerson;
+    private int capacityCar;
     private Date addCarDate;
     private String maintenance;
     private Date maintenanceDate;
@@ -22,7 +24,9 @@ public class Client {
     private String typeMaintenance;
 
     private String[] service;
-    private int totalServices = 0;
+
+    private double cost;
+    private int totalServices;
 
     // constants for the services
     private static final String[] TOTAL_SERVICES = {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
@@ -64,7 +68,7 @@ public class Client {
         if (Validation.lenDNI(DNI)) {
             this.DNI = DNI;
         } else {
-            throw new Exception("DNI must have 9 characters");
+            throw new Exception("DNI must have 10 characters");
         }
     }
 
@@ -116,9 +120,9 @@ public class Client {
         } else {
             // valid name, no have numbers
             if (Validation.isName(mechanic)) {
-                throw new Exception("Mechanic must have only letters");
-            } else {
                 this.mechanic = mechanic;
+            } else {
+                throw new Exception("Mechanic must have only letters");
             }
         }
 
@@ -142,6 +146,52 @@ public class Client {
         }
     }
 
+    public int getCapacityCar() {
+        return capacityCar;
+    }
+
+    public void setCapacityCar(String capacityCar) throws Exception {
+        if (Validation.isNotNumberAbs(capacityCar)) {
+            throw new Exception("Capacity car must be a number");
+        } else {
+            int capacity = Integer.parseInt(capacityCar);
+            if (capacity < 1) {
+                throw new Exception("Capacity car must be between 1");
+            } else {
+                this.capacityCar = capacity;
+            }
+        }
+    }
+
+    public Date getAddCarDate() {
+        return addCarDate;
+    }
+
+    public void setAddCarDate(Date addCarDate) throws Exception {
+        Date today = new Date();
+
+        if (addCarDate == null) {
+            throw new Exception("Add car date must be a date");
+        } else if (addCarDate.getTime() < today.getTime()) {
+            this.addCarDate = addCarDate;
+        } else {
+            throw new Exception("Car date must be less than today");
+        }
+    }
+
+    public String getTypeMaintenance() {
+        return typeMaintenance;
+    }
+
+    public void setTypeMaintenance(String typeMaintenance) throws Exception {
+        if (typeMaintenance.equals("Preventivo") || typeMaintenance.equals("Correctivo")) {
+            this.typeMaintenance = typeMaintenance;
+        } else {
+            throw new Exception("Type maintenance must be Preventivo or Correctivo");
+        }
+    }
+
+
     public String getMaintenance() {
         return maintenance;
     }
@@ -150,6 +200,25 @@ public class Client {
         if (maintenance.length() <= 8) {
             throw new Exception("Maintenance must have more than 8 characters");
         }
+        this.maintenance = maintenance;
+    }
+
+    public Date getMaintenanceDate() {
+        return maintenanceDate;
+    }
+
+    public void setMaintenanceDate(Date maintenanceDate) throws Exception {
+
+        Date today = new Date();
+
+        if (maintenanceDate == null) {
+            throw new Exception("Maintenance date must be a date");
+        } else if (maintenanceDate.getTime() < today.getTime()) {
+            throw new Exception("Maintenance date must be a future date");
+        } else {
+            this.maintenanceDate = maintenanceDate;
+        }
+
     }
 
     // services methods
@@ -167,7 +236,7 @@ public class Client {
 
     public void setTotalServices(String totalServices) throws Exception {
 
-        if (Validation.isNumberAbs(totalServices)) {
+        if (Validation.isNotNumberAbs(totalServices)) {
             throw new Exception("Total services must be a number");
         } else {
             this.totalServices = Integer.parseInt(totalServices);
@@ -177,15 +246,13 @@ public class Client {
 
     public void addNewService(String index) throws Exception {
 
-        if (Validation.isNumberAbs(index)) {
+        if (Validation.isNotNumberAbs(index)) {
             throw new Exception("Index must be a number");
         } else {
 
             int poss = Integer.parseInt(index) - 1;
 
-            if (poss > TOTAL_SERVICES.length || poss < 0) {
-                throw new Exception("Index out of bounds");
-            } else if (this.service[poss] != null) {
+            if (this.service[poss] != null) {
                 throw new Exception("Service already selected please select another one");
             } else {
                 this.service[poss] = TOTAL_SERVICES[poss];
@@ -205,7 +272,7 @@ public class Client {
     public void selectServices(Scanner reader) throws Exception {
         // ask for the services
 
-        boolean currError;
+        boolean currError, error;
         int selectedServices = 0;
 
         // present the services
@@ -227,27 +294,48 @@ public class Client {
 
         // ask for the services
         do {
-            currError = false;
+            error = false;
             try {
 
                 System.out.println("Enter the number of the service");
-                addNewService(reader.nextLine());
+                addNewService(reader.next());
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                currError = true;
+                error = true;
             }
 
-            if (!currError) {
+            if (!error) {
                 selectedServices++;
             }
 
-        } while (currError && selectedServices < this.totalServices);
+        } while (!error && selectedServices < this.totalServices);
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void calculateCost() {
+        double count = 0;
+        // "Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"}
+        for (String servi : this.service) {
+            switch (servi) {
+                case "Lavado" -> count += 10;
+                case "Alineacion" -> count += 20;
+                case "Engranaje" -> count += 30;
+                case "Limpieza" -> count += 40;
+                case "Reparacion" -> count += 50;
+                case "Cambio de parabrizas" -> count += 60;
+            }
+        }
+
+        this.cost = this.getTypeMaintenance().equals("Correctivo") ? count + 100 : count;
+
+    }
 
     public void inputInitialData(Scanner reader) throws Exception {
-        boolean isValid = true;
+        boolean isValid;
         // why use a do while? because we need
         // to ask for the name at least once
         // ask for name
@@ -256,34 +344,74 @@ public class Client {
         do {
 
             try {
+                isValid = true;
 
-                System.out.println("Enter the name of the client");
-                this.setName(reader.nextLine());
+                System.out.print("Enter the name of the client: ");
+                this.setName(reader.next());
 
-                System.out.println("Enter the last name of the client");
-                this.setLastName(reader.nextLine());
+                System.out.print("Enter the last name of the client");
+                this.setLastName(reader.next());
 
-                System.out.println("Enter the DNI of the client");
-                this.setDNI(reader.nextLine());
+                System.out.print("Enter the DNI of the client");
+                this.setDNI(reader.next());
 
-                System.out.println("Enter the mechanic of the client");
-                this.setMechanic(reader.nextLine());
+                System.out.print("Enter the mechanic of the client");
+                this.setMechanic(reader.next());
 
-                System.out.println("Enter the plate of the client");
-                this.setPlate(reader.nextLine());
+                System.out.print("Enter the plate of the client");
+                this.setPlate(reader.next());
 
                 System.out.println("Enter the maintenance of the client");
-                this.setMaintenance(reader.nextLine());
+                this.setMaintenance(reader.next());
 
+                System.out.print("Enter the capacity of the car");
+                this.setCapacityCar(reader.next());
+
+                System.out.print("Enter the type of maintenance");
+                this.setTypeMaintenance(reader.next());
+
+                System.out.print("Enter the date of the car");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                this.setAddCarDate(formatter.parse(reader.next()));
+
+                System.out.print("Enter the date of the maintenance");
+                this.setMaintenanceDate(formatter.parse(reader.next()));
+
+            } catch (NumberFormatException e) {
+                System.out.println("The value must be a number");
+                isValid = false;
+            } catch (ParseException e) {
+                System.out.println("The date must be in the format dd/MM/yyyy");
+                isValid = false;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 isValid = false;
             }
 
         } while (!isValid);
+        System.out.println("The data was entered correctly");
+        System.out.println("The services are: ");
+        this.selectServices(reader);
+        this.calculateCost();
     }
 
-    public void showDetails() {
-        System.out.println("Client: " + this.name + " " + this.lastName + " DNI: " + this.DNI);
+    public void showData() {
+        System.out.println("Name: " + this.name);
+        System.out.println("Last name: " + this.lastName);
+        System.out.println("DNI: " + this.DNI);
+        System.out.println("Mechanic: " + this.mechanic);
+        System.out.println("Plate: " + this.plate);
+        System.out.println("Maintenance: " + this.maintenance);
+        System.out.println("Capacity car: " + this.capacityCar);
+        System.out.println("Type maintenance: " + this.typeMaintenance);
+        System.out.println("Add car date: " + this.addCarDate);
+        System.out.println("Maintenance date: " + this.maintenanceDate);
+        System.out.println("The services are: ");
+        for (String s : this.service) {
+            System.out.println(s);
+        }
+        System.out.println("Total services: " + this.totalServices);
+        System.out.println("Cost: " + this.cost);
     }
+
 }
