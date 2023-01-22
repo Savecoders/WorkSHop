@@ -22,7 +22,7 @@ public class WorkShop {
         ++this.idWorkShop;
 
         Scanner read = new Scanner(System.in);
-        this.client.input(read);
+        this.client.inputInitialData(read);
     }
     public int getIdWorkShop() {
         return this.idWorkShop;
