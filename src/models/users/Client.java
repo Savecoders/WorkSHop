@@ -1,6 +1,7 @@
 package models.users;
 // class of validations
-
+import assets.Template;
+import models.vehiculos.Replacement;
 import utils.Validation;
 // the resources for the date
 import java.text.ParseException;
@@ -29,8 +30,12 @@ public class Client {
     private int totalServices;
 
     // constants for the services
-    private static final String[] TOTAL_SERVICES = {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
+    private static final String[] TOTAL_SERVICES =
+            {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
 
+    // replacement
+
+    private Replacement[] replacment;
 
     // Constructors
 
@@ -269,7 +274,7 @@ public class Client {
 
     }
 
-    public void selectServices(Scanner reader) throws Exception {
+    public void selectServices(Scanner reader) {
         // ask for the services
 
         boolean currError, error;
@@ -321,17 +326,34 @@ public class Client {
         // "Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"}
         for (String servi : this.service) {
             switch (servi) {
-                case "Lavado" -> count += 10;
-                case "Alineacion" -> count += 20;
-                case "Engranaje" -> count += 30;
-                case "Limpieza" -> count += 40;
-                case "Reparacion" -> count += 50;
-                case "Cambio de parabrizas" -> count += 60;
+                case "Lavado":
+                    count += 10;
+                    break;
+                case "Alineacion":
+                    count += 20;
+                    break;
+                case "Engranaje":
+                    count += 30;
+                    break;
+                case "Limpieza":
+                    count += 40;
+                    break;
+                case "Reparacion":
+                    count += 50;
+                    break;
+                case "Cambio de parabrizas":
+                    count += 60;
+                    break;
             }
         }
 
-        this.cost = this.getTypeMaintenance().equals("Correctivo") ? count + 100 : count;
+        if (this.replacment != null) {
+            for (Replacement replace : replacment) {
+                count += replace.getPrice();
+            }
+        }
 
+        this.cost = count;
     }
 
     public void inputInitialData(Scanner reader) throws Exception {
@@ -346,45 +368,66 @@ public class Client {
             try {
                 isValid = true;
 
-                System.out.print("Enter the name of the client: ");
+                System.out.println(Template.ANSI_WHITE +  "===========================================================" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_YELLOW +  "=                     CLIENT DATA                         =" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_WHITE +  "===========================================================" + Template.ANSI_RESET);
+
+                System.out.print(Template.ANSI_PURPLE +  "Enter the name of the client: " + Template.ANSI_RESET);
                 this.setName(reader.next());
 
-                System.out.print("Enter the last name of the client");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the last name of the client: " + Template.ANSI_RESET);
                 this.setLastName(reader.next());
 
-                System.out.print("Enter the DNI of the client");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the DNI of the client: " + Template.ANSI_RESET);
                 this.setDNI(reader.next());
 
-                System.out.print("Enter the mechanic of the client");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the mechanic of the client: " + Template.ANSI_RESET);
                 this.setMechanic(reader.next());
 
-                System.out.print("Enter the plate of the client");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the plate of the client: " + Template.ANSI_RESET);
                 this.setPlate(reader.next());
 
-                System.out.println("Enter the maintenance of the client");
+                System.out.println(Template.ANSI_PURPLE +  "Enter the maintenance of the client: " + Template.ANSI_RESET);
                 this.setMaintenance(reader.next());
 
-                System.out.print("Enter the capacity of the car");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the capacity of the car: " + Template.ANSI_RESET);
                 this.setCapacityCar(reader.next());
 
-                System.out.print("Enter the type of maintenance");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the type of maintenance: " + Template.ANSI_RESET);
                 this.setTypeMaintenance(reader.next());
 
-                System.out.print("Enter the date of the car");
+                if (typeMaintenance.equals("Correctivo")) {
+                    System.out.print(Template.ANSI_CYAN +  "Please enter the length of the replacement: " + Template.ANSI_RESET);
+
+                    int length = reader.nextInt();
+
+                    replacment = new Replacement[length];
+
+                    for (int i = 0; i < length; i++) {
+                        System.out.println(Template.ANSI_GREEN +  "The replacement : " + (i + 1) + "/" + length + " "+ Template.ANSI_RESET);
+                        System.out.print(Template.ANSI_PURPLE +  "Enter the name of the replacement: " + Template.ANSI_RESET);
+                        replacment[i].setName(reader.next());
+                        System.out.println(Template.ANSI_PURPLE +  "Enter the price of the replacement: " + Template.ANSI_RESET);
+                        replacment[i].setPrice(reader.nextDouble());
+                    }
+
+                }
+
+                System.out.print(Template.ANSI_PURPLE +  "Enter the date of the car (dd/MM/yyyy): " + Template.ANSI_RESET);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 this.setAddCarDate(formatter.parse(reader.next()));
 
-                System.out.print("Enter the date of the maintenance");
+                System.out.print(Template.ANSI_PURPLE +  "Enter the date of the maintenance (dd/MM/yyyy): " + Template.ANSI_RESET);
                 this.setMaintenanceDate(formatter.parse(reader.next()));
 
             } catch (NumberFormatException e) {
-                System.out.println("The value must be a number");
+                System.out.println(Template.ANSI_RED +  "The value must be a number " + Template.ANSI_RESET);
                 isValid = false;
             } catch (ParseException e) {
-                System.out.println("The date must be in the format dd/MM/yyyy");
+                System.out.println(Template.ANSI_RED +  "The date must be in the format dd/MM/yyyy" + Template.ANSI_RESET);
                 isValid = false;
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
                 isValid = false;
             }
 
