@@ -1,9 +1,11 @@
 package models.users;
 // class of validations
+
 import assets.Template;
 import models.vehiculos.Replacement;
 import utils.Validation;
 // the resources for the date
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -35,7 +37,7 @@ public class Client {
 
     // replacement
 
-    private Replacement[] replacment;
+    private Replacement[] replacements;
 
     // Constructors
 
@@ -203,7 +205,7 @@ public class Client {
 
     public void setMaintenance(String maintenance) throws Exception {
         if (maintenance.length() <= 8) {
-            throw new Exception("Maintenance must have more than 8 characters");
+            throw new Exception("\n Maintenance must have more than 8 characters");
         }
         this.maintenance = maintenance;
     }
@@ -249,7 +251,7 @@ public class Client {
 
     }
 
-    public void addNewService(String index) throws Exception {
+    public void addNewService(String index, int possition) throws Exception {
 
         if (Validation.isNotNumberAbs(index)) {
             throw new Exception("Index must be a number");
@@ -257,16 +259,16 @@ public class Client {
 
             int poss = Integer.parseInt(index) - 1;
 
-            if (this.service[poss] != null) {
+            if (this.service[possition] != null) {
                 throw new Exception("Service already selected please select another one");
             } else {
-                this.service[poss] = TOTAL_SERVICES[poss];
+                this.service[possition] = TOTAL_SERVICES[poss];
             }
         }
     }
 
     public void presentServices() {
-        System.out.println("Services: ");
+        System.out.println("Servicios: ");
 
         for (int i = 0; i < TOTAL_SERVICES.length; i++) {
             System.out.println((i + 1) + ". " + TOTAL_SERVICES[i]);
@@ -287,7 +289,8 @@ public class Client {
         do {
             currError = false;
             try {
-                System.out.println("how many services do you want to add? : ");
+                System.out.println(Template.ANSI_BLUE + "| Segun los servicios mostrados. " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_BLUE + "| Cuantos serivicios quisiera adquirir? : " + Template.ANSI_RESET);
                 this.setTotalServices(reader.next());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -302,11 +305,13 @@ public class Client {
             error = false;
             try {
 
-                System.out.println("Enter the number of the service");
-                addNewService(reader.next());
+                System.out.println(Template.ANSI_BLUE + "| Segun los servicios mostrados. " + (selectedServices + 1) + "/" + (this.totalServices) + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_CYAN + "Ingrese el numero del servicio que desea agregar: " + Template.ANSI_RESET);
+                addNewService(reader.next(), selectedServices);
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
                 error = true;
             }
 
@@ -345,12 +350,30 @@ public class Client {
                     count += 60;
                     break;
             }
+
+            /*
+            Otro metodo de hacerlo
+            * switch (servi) {
+                case "Lavado" -> count += 10;
+                case "Alineacion" -> count += 20;
+                case "Engranaje" -> count += 30;
+                case "Limpieza" -> count += 40;
+                case "Reparacion" -> count += 50;
+                case "Cambio de parabrizas" -> count += 60;
+            }
+            * */
         }
 
-        if (this.replacment != null) {
-            for (Replacement replace : replacment) {
+        if (this.replacements != null) {
+            for (Replacement replace : replacements) {
                 count += replace.getPrice();
             }
+        }
+
+        if (typeMaintenance.equals("Correctivo")) {
+            count += 60;
+        } else {
+            count += 50;
         }
 
         this.cost = count;
@@ -368,93 +391,109 @@ public class Client {
             try {
                 isValid = true;
 
-                System.out.println(Template.ANSI_WHITE +  "===========================================================" + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_YELLOW +  "=                     CLIENT DATA                         =" + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_WHITE +  "===========================================================" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_YELLOW + "|                       Datos del CLiente                         |" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the name of the client: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Nombre del cliente:  " + Template.ANSI_RESET);
                 this.setName(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the last name of the client: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Apellido del cliente: " + Template.ANSI_RESET);
                 this.setLastName(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the DNI of the client: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese su DNI: " + Template.ANSI_RESET);
                 this.setDNI(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the mechanic of the client: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el nombre del mecanico para atenderlo : " + Template.ANSI_RESET);
                 this.setMechanic(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the plate of the client: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la placa de su vehiculo (AAANNNx): " + Template.ANSI_RESET);
                 this.setPlate(reader.next());
 
-                System.out.println(Template.ANSI_PURPLE +  "Enter the maintenance of the client: " + Template.ANSI_RESET);
-                this.setMaintenance(reader.next());
-
-                System.out.print(Template.ANSI_PURPLE +  "Enter the capacity of the car: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la capacidad maxima de pasajeros del vehiculo: " + Template.ANSI_RESET);
                 this.setCapacityCar(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the type of maintenance: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha de adquisicion del vehiculo (dd/MM/yyyy): " + Template.ANSI_RESET);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                this.setAddCarDate(formatter.parse(reader.next()));
+
+                // fix the bug
+                reader.nextLine();
+
+                System.out.println(Template.ANSI_PURPLE + "| Ingrese la descripcion de su mantenimiento: " + Template.ANSI_RESET);
+                this.setMaintenance(reader.nextLine());
+
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha del mantenimiento adquirido (dd/MM/yyyy): " + Template.ANSI_RESET);
+                this.setMaintenanceDate(formatter.parse(reader.next()));
+
+
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el tipo de mantenimiento: " + Template.ANSI_RESET);
                 this.setTypeMaintenance(reader.next());
 
                 if (typeMaintenance.equals("Correctivo")) {
-                    System.out.print(Template.ANSI_CYAN +  "Please enter the length of the replacement: " + Template.ANSI_RESET);
-
+                    System.out.print(Template.ANSI_CYAN + "| Ingrese el numero de respuestos que necesita: " + Template.ANSI_RESET);
                     int length = reader.nextInt();
 
-                    replacment = new Replacement[length];
+                    this.replacements = new Replacement[length];
 
                     for (int i = 0; i < length; i++) {
-                        System.out.println(Template.ANSI_GREEN +  "The replacement : " + (i + 1) + "/" + length + " "+ Template.ANSI_RESET);
-                        System.out.print(Template.ANSI_PURPLE +  "Enter the name of the replacement: " + Template.ANSI_RESET);
-                        replacment[i].setName(reader.next());
-                        System.out.println(Template.ANSI_PURPLE +  "Enter the price of the replacement: " + Template.ANSI_RESET);
-                        replacment[i].setPrice(reader.nextDouble());
+                        System.out.print(Template.ANSI_CYAN + "| Ingrese el nombre del repuesto: " + Template.ANSI_RESET);
+                        String name = reader.next();
+
+                        System.out.print(Template.ANSI_CYAN + "| Ingrese el precio del repuesto: " + Template.ANSI_RESET);
+                        double price = reader.nextDouble();
+
+                        this.replacements[i] = new Replacement(name, price);
                     }
 
                 }
 
-                System.out.print(Template.ANSI_PURPLE +  "Enter the date of the car (dd/MM/yyyy): " + Template.ANSI_RESET);
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                this.setAddCarDate(formatter.parse(reader.next()));
-
-                System.out.print(Template.ANSI_PURPLE +  "Enter the date of the maintenance (dd/MM/yyyy): " + Template.ANSI_RESET);
-                this.setMaintenanceDate(formatter.parse(reader.next()));
-
             } catch (NumberFormatException e) {
-                System.out.println(Template.ANSI_RED +  "The value must be a number " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "!!Ocurrio un error en la conversion, deberia convertir en un numero " + Template.ANSI_RESET);
                 isValid = false;
             } catch (ParseException e) {
-                System.out.println(Template.ANSI_RED +  "The date must be in the format dd/MM/yyyy" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "EL formato de la fecha ingresada no es: dd/MM/yyyy" + Template.ANSI_RESET);
                 isValid = false;
             } catch (Exception e) {
+                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
                 System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
                 isValid = false;
             }
 
         } while (!isValid);
-        System.out.println("The data was entered correctly");
-        System.out.println("The services are: ");
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "| Los datos han sido ingresados correctamente                  |" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println();
+        System.out.println(Template.ANSI_GREEN + "| Seleccione los servicios que desea adquirir                 |" + Template.ANSI_RESET);
         this.selectServices(reader);
         this.calculateCost();
     }
 
     public void showData() {
-        System.out.println("Name: " + this.name);
-        System.out.println("Last name: " + this.lastName);
-        System.out.println("DNI: " + this.DNI);
-        System.out.println("Mechanic: " + this.mechanic);
-        System.out.println("Plate: " + this.plate);
-        System.out.println("Maintenance: " + this.maintenance);
-        System.out.println("Capacity car: " + this.capacityCar);
-        System.out.println("Type maintenance: " + this.typeMaintenance);
-        System.out.println("Add car date: " + this.addCarDate);
-        System.out.println("Maintenance date: " + this.maintenanceDate);
-        System.out.println("The services are: ");
+
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BOLD + "|                   Los datos del cliente son:                |" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+
+
+        System.out.println(Template.ANSI_BLUE + "| Name: " + this.name + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Last name: " + this.lastName + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| DNI: " + this.DNI + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Mechanic: " + this.mechanic + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Plate: " + this.plate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Maintenance: " + this.maintenance + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Capacity car: " + this.capacityCar + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Type maintenance: " + this.typeMaintenance + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Add car date: " + this.addCarDate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Maintenance date: " + this.maintenanceDate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| The services are: ");
         for (String s : this.service) {
-            System.out.println(s);
+            System.out.print(s + " ");
         }
-        System.out.println("Total services: " + this.totalServices);
-        System.out.println("Cost: " + this.cost);
+        System.out.println(Template.ANSI_BLUE + "Total services: " + this.totalServices + this.maintenanceDate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "Cost: " + this.cost + this.maintenanceDate + Template.ANSI_RESET);
     }
 
 }

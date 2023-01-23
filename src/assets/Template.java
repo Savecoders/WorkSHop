@@ -26,24 +26,19 @@ public class Template {
     public static final String ANSI_ITALIC = "\u001B[3m";
     public static final String ANSI_STRIKETHROUGH = "\u001B[9m";
 
-    // Animation terminal
+    // animations
 
-    public static void animation(String text) {
+    public static void Animation(String text, int time) {
         for (int i = 0; i < text.length(); i++) {
             System.out.print(text.charAt(i));
             try {
-                Thread.sleep(100);
+                Thread.sleep(time);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-    // terminal functions
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
 
 }

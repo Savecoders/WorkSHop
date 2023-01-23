@@ -64,7 +64,10 @@ public class WorkShop {
     public void showSearchClientByDni(String dni) {
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getDNI().equals(dni)) {
-                System.out.println("Client " + (i + 1));
+                System.out.println("------------------------------------");
+                System.out.println("|             Client " + (i + 1)   + "             |");
+                System.out.println("------------------------------------");
+
                 this.arrayClients[i].showData();
             }
         }
@@ -92,7 +95,7 @@ public class WorkShop {
     public void inputClients(Scanner reader) {
 
         try {
-            System.out.println("Enter the number of clients: ");
+            System.out.print("Ingrese el numero de clientes: ");
             this.setIndex(reader.nextInt());
         } catch (Exception e) {
             System.out.println(e.getMessage());
