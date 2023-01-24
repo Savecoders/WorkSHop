@@ -28,22 +28,13 @@ public class Template {
 
     // animations
 
-    public static void Animation(String text, int time) {
-        for (int i = 0; i < text.length(); i++) {
-            System.out.print(text.charAt(i));
-            try {
-                Thread.sleep(time);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     public static void presentation() {
 
         System.out.println("=========================================================================");
         System.out.print("|                         ");
-        Animation(Template.ANSI_BOLD + "Welcome to the workshop" + Template.ANSI_RESET, 100);
+        System.out.print(Template.ANSI_BOLD + "Welcome to the workshop" + Template.ANSI_RESET);
         System.out.print("                       |\n");
         System.out.println("=========================================================================");
         System.out.println();

@@ -2,7 +2,7 @@ package models.Administrator;
 
 import java.util.Scanner;
 
-import models.users.Client;
+import models.maintenance.Client;
 
 public class WorkShop {
     private Client[] arrayClients;
