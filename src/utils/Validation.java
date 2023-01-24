@@ -14,8 +14,8 @@ public class Validation {
         return DNI.length() == 10;
     }
 
-    public static boolean isPlate(String plate) {
-        return !(plate.length() == 7);
+    public static boolean isLenPlate(String plate) {
+        return !(plate.length() >= 7 && plate.length() <= 8);
     }
 
     public static boolean isPlateFormat(String plate) {
@@ -34,12 +34,12 @@ public class Validation {
         String container = "@#$%^&*()_+{}|:<>?[];',./";
         return !number.matches("[0-9]+") && !number.contains(container);
     }
-      public static void isNumerical(String[] args) {
-        String str = "1123";
+
+    public static void isNumerical(String number) {
         try {
-        Double.parseDouble(str);
-        System.out.println("It is numerical string");
-        }catch(NumberFormatException e) {
+            Double.parseDouble(number);
+            System.out.println("It is numerical string");
+        } catch (NumberFormatException e) {
             System.out.println("It is not numerical string");
         }
     }

@@ -1,4 +1,4 @@
-package models.maintenance;
+package models.Maintenance;
 // class of validations
 
 import assets.Template;
@@ -22,17 +22,14 @@ public class Client {
     private Date addCarDate;
     private String maintenance;
     private Date maintenanceDate;
-
     private String typeMaintenance;
-
     private String[] service;
 
     private double cost;
     private int totalServices;
 
     // constants for the services
-    private static final String[] TOTAL_SERVICES =
-            {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
+    private static final String[] TOTAL_SERVICES = {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
 
     // replacement
 
@@ -78,10 +75,10 @@ public class Client {
                 this.DNI = DNI;
 
             } else {
-                throw new Exception("Please use Numbers. ");
+                throw new Exception("Solo Utilice Números. ");
             }
         } else {
-            throw new Exception("DNI must have 10 characters");
+            throw new Exception("DNI debe tener 10 Números");
         }
     }
 
@@ -92,14 +89,14 @@ public class Client {
     public void setName(String name) throws Exception {
 
         if (Validation.lenName(name)) {
-            throw new Exception("Name must have more than 2 characters");
+            throw new Exception("El nombre debe tener más de 2 letras");
         }
 
         // valid name, no have numbers
         if (Validation.isName(name)) {
             this.name = name;
         } else {
-            throw new Exception("Name must have only letters");
+            throw new Exception("El nombre debe tener solo letras :(");
         }
     }
 
@@ -110,13 +107,13 @@ public class Client {
     public void setLastName(String lastName) throws Exception {
         // valid name, more than 3 characters
         if (Validation.lenName(lastName)) {
-            throw new Exception("Last name must have more than 3 characters");
+            throw new Exception("El apellido debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
             if (Validation.isName(lastName)) {
                 this.lastName = lastName;
             } else {
-                throw new Exception("Last name must have only letters");
+                throw new Exception("El apellido debe tener solo letras :(");
             }
         }
     }
@@ -129,13 +126,13 @@ public class Client {
 
         // valid name, more than 3 characters
         if (Validation.lenName(mechanic)) {
-            throw new Exception("Mechanic must have more than 3 characters");
+            throw new Exception("El Mecánico debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
             if (Validation.isName(mechanic)) {
                 this.mechanic = mechanic;
             } else {
-                throw new Exception("Mechanic must have only letters");
+                throw new Exception("El Nombre del Mecánico debe tener solo letras :(");
             }
         }
 
@@ -147,12 +144,12 @@ public class Client {
 
     public void setPlate(String plate) throws Exception {
         // valid plate, 7 characters
-        if (Validation.isPlate(plate)) {
-            throw new Exception("Plate must have 7 characters");
+        if (Validation.isLenPlate(plate)) {
+            throw new Exception("La placa tiene que tener entre 7 a 8 Números");
         } else {
             // valid plate, 3 uppercase letters and 3 numbers
             if (Validation.isPlateFormat(plate)) {
-                throw new Exception("Plate must have 3 uppercase letters and 3 numbers");
+                throw new Exception("Solo puede tener 7 Números");
             } else {
                 this.plate = plate;
             }
@@ -165,11 +162,11 @@ public class Client {
 
     public void setCapacityCar(String capacityCar) throws Exception {
         if (Validation.isNotNumberAbs(capacityCar)) {
-            throw new Exception("Capacity car must be a number");
+            throw new Exception("Solo puede tener Números");
         } else {
             int capacity = Integer.parseInt(capacityCar);
             if (capacity < 1) {
-                throw new Exception("Capacity car must be between 1");
+                throw new Exception("La capacidad tiene que ser mayor a 1");
             } else {
                 this.capacityCar = capacity;
             }
@@ -184,11 +181,11 @@ public class Client {
         Date today = new Date();
 
         if (addCarDate == null) {
-            throw new Exception("Add car date must be a date");
+            throw new Exception("La fecha del coche no puede ser null");
         } else if (addCarDate.getTime() < today.getTime()) {
             this.addCarDate = addCarDate;
         } else {
-            throw new Exception("Car date must be less than today");
+            throw new Exception("La fecha del auto debe ser anterior a la de hoy");
         }
     }
 
@@ -197,10 +194,10 @@ public class Client {
     }
 
     public void setTypeMaintenance(String typeMaintenance) throws Exception {
-        if (typeMaintenance.equals("Preventivo") || typeMaintenance.equals("Correctivo")) {
+        if (typeMaintenance.equalsIgnoreCase("preventivo") || typeMaintenance.equalsIgnoreCase("correctivo")) {
             this.typeMaintenance = typeMaintenance;
         } else {
-            throw new Exception("Type maintenance must be Preventivo or Correctivo");
+            throw new Exception("El tipo deve de ser Preventivo or Correctivo");
         }
     }
 
@@ -211,7 +208,7 @@ public class Client {
 
     public void setMaintenance(String maintenance) throws Exception {
         if (maintenance.length() <= 8) {
-            throw new Exception("\n Maintenance must have more than 8 characters");
+            throw new Exception("\n El mantenimiento debe tener más de 8 caracteres");
         }
         this.maintenance = maintenance;
     }
@@ -225,9 +222,9 @@ public class Client {
         Date today = new Date();
 
         if (maintenanceDate == null) {
-            throw new Exception("Maintenance date must be a date");
+            throw new Exception("La fecha del coche no puede ser null");
         } else if (maintenanceDate.getTime() < today.getTime()) {
-            throw new Exception("Maintenance date must be a future date");
+            throw new Exception("La fecha del mantenimiento debe ser posterior a la de hoy");
         } else {
             this.maintenanceDate = maintenanceDate;
         }
@@ -250,7 +247,7 @@ public class Client {
     public void setTotalServices(String totalServices) throws Exception {
 
         if (Validation.isNotNumberAbs(totalServices)) {
-            throw new Exception("Total services must be a number");
+            throw new Exception("El total de servicios debe ser un número");
         } else {
             this.totalServices = Integer.parseInt(totalServices);
         }
@@ -260,13 +257,13 @@ public class Client {
     public void addNewService(String index, int possition) throws Exception {
 
         if (Validation.isNotNumberAbs(index)) {
-            throw new Exception("Index must be a number");
+            throw new Exception("Index debe ser un número");
         } else {
 
             int poss = Integer.parseInt(index) - 1;
 
             if (this.service[possition] != null) {
-                throw new Exception("Service already selected please select another one");
+                throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
             } else {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }

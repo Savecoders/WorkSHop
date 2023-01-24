@@ -2,7 +2,7 @@ package models.Administrator;
 
 import java.util.Scanner;
 
-import models.maintenance.Client;
+import models.Maintenance.Client;
 
 public class WorkShop {
     private Client[] arrayClients;
@@ -21,9 +21,9 @@ public class WorkShop {
 
     public void setArrayClients(Client[] arrayClients) throws Exception {
         if (arrayClients == null) {
-            throw new Exception("Array must have more than 0 elements");
+            throw new Exception("El arreglo de clientes no puede ser nulo");
         } else if (arrayClients.length == 0) {
-            throw new Exception("Array must have more than 0 elements");
+            throw new Exception("El arreglo de clientes no puede ser vacio");
         } else {
             this.arrayClients = arrayClients;
         }
@@ -36,7 +36,7 @@ public class WorkShop {
 
     public void setIndex(int index) throws Exception {
         if (index < 0) {
-            throw new Exception("Index must be greater than 0");
+            throw new Exception("Indice no puede ser negativo");
         } else {
             this.index = index;
         }
@@ -46,9 +46,9 @@ public class WorkShop {
 
     public void addClient(Client client, int poss) throws Exception {
         if (client == null) {
-            throw new Exception("Client must have more than 0 elements");
+            throw new Exception("El Objecto cliente no puede ser nulo");
         } else if (poss >= this.arrayClients.length) {
-            throw new Exception("Array is full");
+            throw new Exception("El Array de clientes esta lleno :(");
         } else {
             this.arrayClients[poss] = client;
         }
@@ -56,7 +56,9 @@ public class WorkShop {
 
     public void showClients() {
         for (int i = 0; i < this.index; i++) {
-            System.out.println("Client " + (i + 1));
+            System.out.println("------------------------------------");
+            System.out.println("|             Cliente  #" + (i + 1)   + "             |");
+            System.out.println("------------------------------------");
             this.arrayClients[i].showData();
         }
     }
@@ -65,7 +67,7 @@ public class WorkShop {
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getDNI().equals(dni)) {
                 System.out.println("------------------------------------");
-                System.out.println("|             Client " + (i + 1)   + "             |");
+                System.out.println("|             Cliente  #" + (i + 1) + "             |");
                 System.out.println("------------------------------------");
 
                 this.arrayClients[i].showData();
@@ -78,7 +80,7 @@ public class WorkShop {
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getPlate().equals(plate)) {
                 System.out.println("------------------------------------");
-                System.out.println("|             Client " + (i + 1)   + "             |");
+                System.out.println("|             Cliente  #" + (i + 1) + "             |");
                 System.out.println("------------------------------------");
                 this.arrayClients[i].showData();
             }
@@ -88,7 +90,9 @@ public class WorkShop {
     public void showSearchClientCost(double cost) {
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getCost() >= cost) {
-                System.out.println("Client: " + (i + 1));
+                System.out.println("------------------------------------");
+                System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                System.out.println("------------------------------------");
                 this.arrayClients[i].showData();
             }
         }
@@ -97,7 +101,7 @@ public class WorkShop {
     public void inputClients(Scanner reader) {
 
         try {
-            System.out.print("Ingrese el numero de clientes: ");
+            System.out.print("Ingrese el numero de clientes que desea: ");
             this.setIndex(reader.nextInt());
         } catch (Exception e) {
             System.out.println(e.getMessage());
