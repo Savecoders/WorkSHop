@@ -1,8 +1,10 @@
 import java.util.Scanner;
+
 import models.Administrator.WorkShop;
 import assets.Template;
+
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Scanner reader = new Scanner(System.in);
         WorkShop inspector = new WorkShop();
@@ -27,39 +29,51 @@ public class Main {
             int option = reader.nextInt();
             reader.nextLine();
             switch (option) {
-                case 1 -> {
+                case 1:
                     System.out.println(Template.ANSI_PURPLE + "         _______");
                     System.out.println("        |.-----.|       Integrantes del grupo ");
                     System.out.println("        ||x . x||      ------------------------");
                     System.out.println("        ||_.-._||      1. Miguel Muniez");
                     System.out.println("        `--)-(--`      2. Ricardo Castro");
                     System.out.println("       __[=== o]__     3. Pablo Pincay Alvarez" + Template.ANSI_RESET);
-                }
-                case 2 -> inspector.inputClients(reader);
-                case 3 -> inspector.showClients();
-                case 4 -> {
+                    break;
+
+                case 2:
+                    inspector.inputClients(reader);
+                    break;
+                case 3:
+                    inspector.showClients();
+                    break;
+                case 4:
                     System.out.println("Enter the DNI: ");
                     String dni = reader.nextLine();
                     inspector.showSearchClientByDni(dni);
-                }
-                case 5 -> {
+                    break;
+
+                case 5:
                     System.out.println("Enter the plate: ");
                     String plate = reader.nextLine();
                     inspector.showSearchClientPlate(plate);
-                }
-                case 6 -> {
+                    break;
+
+                case 6 :
                     System.out.println("Enter the cost: ");
                     double cost = reader.nextDouble();
                     inspector.showSearchClientCost(cost);
-                }
-                case 7 -> System.exit(0);
-                default -> System.out.println("Invalid option");
+                    break;
+
+                case 7 :
+                    System.out.println("Exit");
+                    break;
+                default:
+                    System.out.println("Invalid option");
+                    break;
             }
 
             System.out.println("\nQuiere Continuar?  1. Si 2. No: ");
             repeat = reader.nextInt();
 
-        } while (repeat==1);
+        } while (repeat == 1);
 
     }
 }

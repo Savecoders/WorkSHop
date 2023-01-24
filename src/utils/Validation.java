@@ -3,7 +3,7 @@ package utils;
 public class Validation {
     public static boolean isName(String name) {
         String container = "0123456789!@#$%^&*()_+{}|:<>?[];',./";
-        return name.matches("[A-Z][a-z]+") && !name.contains(container);
+        return !name.contains(container);
     }
 
     public static boolean lenName(String lastName) {
