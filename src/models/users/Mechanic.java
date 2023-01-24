@@ -21,7 +21,7 @@ public class Mechanic {
             throw new Exception("Name must have more than 2 characters");
         }
         // no using numbers or special characters
-        if(!name.matches("[A-Z][a-z]+")) {
+        if(name.matches("[A-Z][a-z]+")) {
             throw new Exception("Name must start with uppercase and have only letters");
         }else{
             this.name = name;
