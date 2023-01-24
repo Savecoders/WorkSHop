@@ -23,7 +23,7 @@ public class Replacement {
 
     public void setPrice(double price) throws Exception {
         if (price <= 0) {
-            throw new Exception("Price must be greater than 0");
+            throw new Exception("El precio no puede ser menor o igual a 0");
         } else {
             this.price = price;
         }

@@ -64,6 +64,7 @@ public class Main {
 
                 case 7:
                     System.out.println("Exit");
+                    Template.bye();
                     break;
                 default:
                     System.out.println("Invalid option");
