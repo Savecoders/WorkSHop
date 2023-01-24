@@ -34,5 +34,14 @@ public class Validation {
         String container = "@#$%^&*()_+{}|:<>?[];',./";
         return !number.matches("[0-9]+") && !number.contains(container);
     }
+      public static void isNumerical(String[] args) {
+        String str = "1123";
+        try {
+        Double.parseDouble(str);
+        System.out.println("It is numerical string");
+        }catch(NumberFormatException e) {
+            System.out.println("It is not numerical string");
+        }
+    }
 
 }
