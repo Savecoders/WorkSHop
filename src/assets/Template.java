@@ -39,6 +39,24 @@ public class Template {
         }
     }
 
+    public static void presentation() {
+
+        System.out.println("=========================================================================");
+        System.out.print("|                         ");
+        Animation(Template.ANSI_BOLD + "Welcome to the workshop" + Template.ANSI_RESET, 100);
+        System.out.print("                       |\n");
+        System.out.println("=========================================================================");
+        System.out.println();
+
+        System.out.println(Template.ANSI_GREEN + "          __--------_");
+        System.out.println("         / l    \\~-_ \\");
+        System.out.println(",----~~~~--+-----`--~----______");
+        System.out.println("@   /~_~\\  | ~      |   /~_~\\~~~-,");
+        System.out.println("\\_ ( (_) )  \\_______|  ( (_) )_-~");
+        System.out.println("  ~~\\___/~~~~~~~~~~~~~~~\\___/~" + Template.ANSI_RESET);
+
+    }
+
 
 
 }

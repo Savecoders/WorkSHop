@@ -57,7 +57,7 @@ public class WorkShop {
     public void showClients() {
         for (int i = 0; i < this.index; i++) {
             System.out.println("Client " + (i + 1));
-            System.out.println(this.arrayClients[i].toString());
+            this.arrayClients[i].showData();
         }
     }
 
@@ -77,7 +77,9 @@ public class WorkShop {
 
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getPlate().equals(plate)) {
-                System.out.println("Client: " + (i + 1));
+                System.out.println("------------------------------------");
+                System.out.println("|             Client " + (i + 1)   + "             |");
+                System.out.println("------------------------------------");
                 this.arrayClients[i].showData();
             }
         }
