@@ -56,13 +56,13 @@ public class Main {
                     inspector.showSearchClientPlate(plate);
                     break;
 
-                case 6 :
+                case 6:
                     System.out.println("Enter the cost: ");
                     double cost = reader.nextDouble();
                     inspector.showSearchClientCost(cost);
                     break;
 
-                case 7 :
+                case 7:
                     System.out.println("Exit");
                     break;
                 default:

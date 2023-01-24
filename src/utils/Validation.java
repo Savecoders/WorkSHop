@@ -19,8 +19,10 @@ public class Validation {
     }
 
     public static boolean isPlateFormat(String plate) {
+        // the general method is: [A-Z]{3}[0-9]{3}
         String container = "@#$%^&*()_+{}|:<>?[];',./";
-        return plate.matches("[A-Z]{3}[0-9]{3}") && !plate.contains(container);
+        //return plate.matches("[A-Z]{3}[0-9]{3}") && !plate.contains(container);
+        return plate.matches("[0-9]{7}") && !plate.contains(container);
     }
 
     public static boolean isDNI(String DNI) {

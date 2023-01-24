@@ -22,7 +22,7 @@ public class WorkShop {
     public void setArrayClients(Client[] arrayClients) throws Exception {
         if (arrayClients == null) {
             throw new Exception("Array must have more than 0 elements");
-        } else if (arrayClients.length <= 0) {
+        } else if (arrayClients.length == 0) {
             throw new Exception("Array must have more than 0 elements");
         } else {
             this.arrayClients = arrayClients;
