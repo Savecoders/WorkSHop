@@ -71,7 +71,7 @@ public class Client {
 
         if (Validation.lenDNI(DNI)) {
             // valid the character
-            if (Validation.isDNI(DNI)) {
+            if (Validation.isStrNumber(DNI)) {
                 this.DNI = DNI;
 
             } else {
@@ -148,7 +148,7 @@ public class Client {
             throw new Exception("La placa tiene que tener entre 7 a 8 Números");
         } else {
             // valid plate, 3 uppercase letters and 3 numbers
-            if (Validation.isPlateFormat(plate)) {
+            if (Validation.isStrNumber(plate)) {
                 throw new Exception("Solo puede tener 7 Números");
             } else {
                 this.plate = plate;
@@ -161,7 +161,7 @@ public class Client {
     }
 
     public void setCapacityCar(String capacityCar) throws Exception {
-        if (Validation.isNotNumberAbs(capacityCar)) {
+        if (Validation.isStrNumber(capacityCar)) {
             throw new Exception("Solo puede tener Números");
         } else {
             int capacity = Integer.parseInt(capacityCar);
@@ -246,7 +246,7 @@ public class Client {
 
     public void setTotalServices(String totalServices) throws Exception {
 
-        if (Validation.isNotNumberAbs(totalServices)) {
+        if (Validation.isStrNumber(totalServices)) {
             throw new Exception("El total de servicios debe ser un número");
         } else {
             this.totalServices = Integer.parseInt(totalServices);
@@ -256,7 +256,7 @@ public class Client {
 
     public void addNewService(String index, int possition) throws Exception {
 
-        if (Validation.isNotNumberAbs(index)) {
+        if (Validation.isStrNumber(index)) {
             throw new Exception("Index debe ser un número");
         } else {
 

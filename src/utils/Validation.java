@@ -2,8 +2,16 @@ package utils;
 
 public class Validation {
     public static boolean isName(String name) {
-        String container = "0123456789!@#$%^&*()_+{}|:<>?[];',./";
-        return !name.contains(container);
+        // validate if the string no contains numbers
+        // using for loop
+
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isDigit(name.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static boolean lenName(String lastName) {
@@ -18,30 +26,19 @@ public class Validation {
         return !(plate.length() >= 7 && plate.length() <= 8);
     }
 
-    public static boolean isPlateFormat(String plate) {
-        // the general method is: [A-Z]{3}[0-9]{3}
-        String container = "@#$%^&*()_+{}|:<>?[];',./";
-        //return plate.matches("[A-Z]{3}[0-9]{3}") && !plate.contains(container);
-        return plate.matches("[0-9]{7}") && !plate.contains(container);
-    }
+    public static boolean isStrNumber(String plate) {
 
-    public static boolean isDNI(String DNI) {
-        String container = "@#$%^&*()_+{}|:<>?[];',./";
-        return DNI.matches("[0-9]{10}") && !DNI.contains(container);
-    }
+        // validate if the string no contains letters and symbols
+        // using for loop
 
-    public static boolean isNotNumberAbs(String number) {
-        String container = "@#$%^&*()_+{}|:<>?[];',./";
-        return !number.matches("[0-9]+") && !number.contains(container);
-    }
-
-    public static void isNumerical(String number) {
-        try {
-            Double.parseDouble(number);
-            System.out.println("It is numerical string");
-        } catch (NumberFormatException e) {
-            System.out.println("It is not numerical string");
+        for (int i = 0; i < plate.length(); i++) {
+            if (Character.isLetter(plate.charAt(i))) {
+                return false;
+            }
         }
+
+        return true;
+
     }
 
 }
