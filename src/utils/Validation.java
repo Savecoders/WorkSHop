@@ -26,7 +26,7 @@ public class Validation {
         return !(plate.length() >= 7 && plate.length() <= 8);
     }
 
-    public static boolean isStrNumber(String plate) {
+    public static boolean isNumeric(String plate) {
 
         // validate if the string no contains letters and symbols
         // using for loop

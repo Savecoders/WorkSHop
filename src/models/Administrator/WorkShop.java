@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import models.Maintenance.Client;
 
+import utils.Validation;
+
 public class WorkShop {
     private Client[] arrayClients;
     private int index;
@@ -56,7 +58,7 @@ public class WorkShop {
 
     public void showClients() {
 
-        if(this.index == 0){
+        if (this.index == 0) {
             System.out.println("No hay clientes registrados");
         }
 
@@ -73,72 +75,93 @@ public class WorkShop {
         }
     }
 
-    public void showSearchClientByDni(String dni) {
+    public void showSearchClientByDni(String dni) throws Exception {
 
-        if(this.index == 0){
+        if (this.index == 0) {
             System.out.println("No hay clientes registrados");
-        }
+        } else if (dni == null) {
+            throw new Exception("El costo no puede ser nulo");
+        } else if (!Validation.isNumeric(dni)) {
+            throw new Exception("La Placa solo debe de tener numeros");
+        } else {
 
+            try {
+                for (int i = 0; i < this.index; i++) {
+                    if (this.arrayClients[i].getDNI().equals(dni)) {
+                        System.out.println("--------------------------------------");
+                        System.out.println("|              Cliente  #" + (i + 1) + "             |");
+                        System.out.println("--------------------------------------");
 
-        try {
-            for (int i = 0; i < this.index; i++) {
-                if (this.arrayClients[i].getDNI().equals(dni)) {
-                    System.out.println("--------------------------------------");
-                    System.out.println("|              Cliente  #" + (i + 1) + "             |");
-                    System.out.println("--------------------------------------");
-
-                    this.arrayClients[i].showData();
+                        this.arrayClients[i].showData();
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Ocurrio un error de conversion");
             }
-        } catch (Exception e) {
-            System.out.println("No hay clientes registrados");
         }
     }
 
-    public void showSearchClientPlate(String plate) {
+    public void showSearchClientPlate(String plate) throws Exception {
 
-        if(this.index == 0){
-            System.out.println("No hay clientes registrados");
-        }
-
-        try{
-        for (int i = 0; i < this.index; i++) {
-            if (this.arrayClients[i].getPlate().equals(plate)) {
-                System.out.println("------------------------------------");
-                System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                System.out.println("------------------------------------");
-                this.arrayClients[i].showData();
+        if (this.index == 0) {
+            throw new Exception("No hay clientes registrados");
+        } else if (plate == null) {
+            throw new Exception("El costo no puede ser nulo");
+        } else if (!Validation.isNumeric(plate)) {
+            throw new Exception("La Placa solo debe de tener numeros");
+        } else {
+            try {
+                for (int i = 0; i < this.index; i++) {
+                    if (this.arrayClients[i].getPlate().equals(plate)) {
+                        System.out.println("------------------------------------");
+                        System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                        System.out.println("------------------------------------");
+                        this.arrayClients[i].showData();
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Ocurrio un error de conversion");
             }
         }
-        }catch(Exception e){
-            System.out.println("No hay clientes registrados");
-        }
+
     }
 
-    public void showSearchClientCost(double cost){
+    public void showSearchClientCost(String cost) throws Exception {
 
-        if(this.index == 0){
-            System.out.println("No hay clientes registrados");
-        }
+        if (this.index == 0) {
+            throw new Exception("No hay clientes registrados");
+        } else if (cost == null) {
+            throw new Exception("El costo no puede ser nulo");
+        } else if (!Validation.isNumeric(cost)) {
+            throw new Exception("El costo debe ser numerico");
+        } else if (Double.parseDouble(cost) < 0) {
+            throw new Exception("El costo no puede ser negativo");
+        } else {
+            try {
 
-        try {
-            for (int i = 0; i < this.index; i++) {
-                if (this.arrayClients[i].getCost() >= cost) {
-                    System.out.println("-------------------------------------");
-                    System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                    System.out.println("-------------------------------------");
-                    this.arrayClients[i].showData();
+                double costValue = Double.parseDouble(cost);
+
+                for (int i = 0; i < this.index; i++) {
+
+                    if (this.arrayClients[i].getCost() >= costValue) {
+                        System.out.println("-------------------------------------");
+                        System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                        System.out.println("-------------------------------------");
+                        this.arrayClients[i].showData();
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Ocurrio un error de conversion");
             }
-        } catch (Exception e) {
-            System.out.println("No hay clientes registrados");
         }
     }
 
     public void inputClients(Scanner reader) {
 
         try {
+            System.out.println("--------------------------------------------------");
             System.out.print("Ingrese el numero de clientes que desea: ");
+
             this.setIndex(reader.nextInt());
         } catch (Exception e) {
             System.out.println(e.getMessage());

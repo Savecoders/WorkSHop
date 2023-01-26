@@ -10,26 +10,16 @@ public class Main {
         WorkShop inspector = new WorkShop();
         Template.presentation();
 
-        int repeat;
+        String repeat;
 
         do {
 
-            System.out.println("---------------------------------------------");
-            System.out.println("-                   Menu                    -");
-            System.out.println("---------------------------------------------");
-            System.out.println("|  1. Mostrar integrantes del grupo");
-            System.out.println("|  2. Add Clientes");
-            System.out.println("|  3. Mostrar  Clientes");
-            System.out.println("|  4. Search Clientes por DNI");
-            System.out.println("|  5. Search Clientes por Placa de vehiculo");
-            System.out.println("|  6. Search Clientes por Costo de mantenimiento");
-            System.out.println("|  7. Exit");
-            System.out.println("---------------------------------------------");
+            Template.menu();
             System.out.print("Ingrese la opcion: ");
-            int option = reader.nextInt();
-            reader.nextLine();
+            String option = reader.next();
+
             switch (option) {
-                case 1:
+                case "1":
                     System.out.println(Template.ANSI_PURPLE + "         _______");
                     System.out.println("        |.-----.|       Integrantes del grupo ");
                     System.out.println("        ||x . x||      ------------------------");
@@ -38,43 +28,66 @@ public class Main {
                     System.out.println("       __[=== o]__     3. Pablo Pincay Alvarez" + Template.ANSI_RESET);
                     break;
 
-                case 2:
+                case "2":
                     inspector.inputClients(reader);
                     break;
-                case 3:
+                case "3":
                     inspector.showClients();
                     break;
-                case 4:
-                    System.out.println("Enter the DNI: ");
+                case "4":
+                    System.out.print("Ingrese la DNI: ");
                     String dni = reader.nextLine();
-                    inspector.showSearchClientByDni(dni);
+                    try {
+                        inspector.showSearchClientByDni(dni);
+                    } catch (Exception e) {
+                        System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                    }
                     break;
 
-                case 5:
-                    System.out.println("Enter the plate: ");
-                    String plate = reader.nextLine();
-                    inspector.showSearchClientPlate(plate);
+                case "5":
+                    System.out.print("Ingrese la placa del vehiculo del usuario: ");
+                    String plate = reader.next();
+                    try {
+                        inspector.showSearchClientPlate(plate);
+                    } catch (Exception e) {
+                        System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                    }
                     break;
 
-                case 6:
-                    System.out.println("Enter the cost: ");
-                    double cost = reader.nextDouble();
-                    inspector.showSearchClientCost(cost);
+                case "6":
+                    System.out.print("Enter the cost: ");
+                    String cost = reader.next();
+                    try {
+                        inspector.showSearchClientCost(cost);
+                    } catch (Exception e) {
+                        System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                    }
                     break;
 
-                case 7:
+                case "7":
                     System.out.println("Exit");
                     Template.bye();
                     break;
                 default:
-                    System.out.println("Invalid option");
+                    System.out.println(Template.ANSI_RED + "Opcion no valida asegurese de ingresar un numero del 1 al 7" + Template.ANSI_RESET);
                     break;
             }
 
-            System.out.println("\nQuiere Continuar?  1. Si 2. No: ");
-            repeat = reader.nextInt();
+            boolean haveERROR;
 
-        } while (repeat == 1);
+            do {
+                System.out.print("\nQuiere Continuar?  1 para Si 2 para No: ");
+                repeat = reader.next();
+
+                if (!repeat.equalsIgnoreCase("2") && !repeat.equalsIgnoreCase("1")) {
+                    System.out.println(Template.ANSI_RED + "Opcion no valida asegurese de ingresar un numero del 1 al 2" + Template.ANSI_RESET);
+                    haveERROR = true;
+                }else{
+                    haveERROR = false;
+                }
+            } while (haveERROR);
+
+        } while (repeat.equalsIgnoreCase("1"));
 
     }
 }

@@ -20,7 +20,19 @@ public class Template {
 
     // animations
 
-
+    public static void menu(){
+        System.out.println("\n"+Template.ANSI_BLUE + "--------------------------------------------------");
+        System.out.println("|                     Menu                       |");
+        System.out.println("--------------------------------------------------");
+        System.out.println("|  1. Mostrar integrantes del grupo              |");
+        System.out.println("|  2. Add Clientes                               |");
+        System.out.println("|  3. Mostrar Clientes registrados               |");
+        System.out.println("|  4. Search Clientes por DNI                    |");
+        System.out.println("|  5. Search Clientes por Placa de vehiculo      |");
+        System.out.println("|  6. Search Clientes por Costo de mantenimiento |");
+        System.out.println("|  7. Exit                                       |");
+        System.out.println("--------------------------------------------------"+ Template.ANSI_RESET);
+    }
 
     public static void presentation() {
 

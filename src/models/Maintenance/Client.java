@@ -70,7 +70,7 @@ public class Client {
 
         if (Validation.lenDNI(DNI)) {
             // valid the character
-            if (Validation.isStrNumber(DNI)) {
+            if (Validation.isNumeric(DNI)) {
                 this.DNI = DNI;
 
             } else {
@@ -153,7 +153,7 @@ public class Client {
             throw new Exception("La placa tiene que tener entre 7 a 8 Números");
         } else {
             // valid plate, 7 numbers
-            if (Validation.isStrNumber(plate)) {
+            if (Validation.isNumeric(plate)) {
                 this.plate = plate;
             } else {
                 throw new Exception("Solo puede tener Números");
@@ -168,7 +168,7 @@ public class Client {
 
     public void setCapacityCar(String capacityCar) throws Exception {
         // valid capacity, 1 number
-        if (Validation.isStrNumber(capacityCar)) {
+        if (Validation.isNumeric(capacityCar)) {
             int capacity = Integer.parseInt(capacityCar);
             if (capacity < 1) {
                 throw new Exception("La capacidad tiene que ser mayor a 1");
@@ -204,7 +204,7 @@ public class Client {
         if (typeMaintenance.equalsIgnoreCase("preventivo") || typeMaintenance.equalsIgnoreCase("correctivo")) {
             this.typeMaintenance = typeMaintenance;
         } else {
-            throw new Exception("El tipo deve de ser Preventivo or Correctivo");
+            throw new Exception("El tipo debe de ser Preventivo o Correctivo no puede ser numeros o caracteres especiales");
         }
     }
 
@@ -254,7 +254,7 @@ public class Client {
     }
 
     public void setTotalServices(String totalServices) throws Exception {
-        if (Validation.isStrNumber(totalServices)) {
+        if (Validation.isNumeric(totalServices)) {
             if (Integer.parseInt(totalServices) < 0 ||  Integer.parseInt(totalServices) > 6) {
                 throw new Exception("Debe de ser un número entre 1 y 6");
             } else {
@@ -267,7 +267,7 @@ public class Client {
 
     public void addNewService(String index, int possition) throws Exception {
 
-        if (Validation.isStrNumber(index)) {
+        if (Validation.isNumeric(index)) {
 
             int poss = Integer.parseInt(index) - 1;
 
@@ -401,9 +401,9 @@ public class Client {
 
 
                 // Template.AnsiColors = color
-                System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_YELLOW + "|                       Datos del CLiente                         |" + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_WHITE + "-----------------------------------------------------------------" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_YELLOW + "|                         Datos del Cliente                     |" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_WHITE + "-----------------------------------------------------------------" + Template.ANSI_RESET);
 
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese el Nombre del cliente:  " + Template.ANSI_RESET);
                 this.setName(reader.next());
@@ -417,30 +417,30 @@ public class Client {
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese el nombre del mecanico para atenderlo : " + Template.ANSI_RESET);
                 this.setMechanic(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE + "| Ingrese la placa de su vehiculo (AAANNNx): " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la placa de su vehiculo (7 o 8 números): " + Template.ANSI_RESET);
                 this.setPlate(reader.next());
 
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese la capacidad maxima de pasajeros del vehiculo: " + Template.ANSI_RESET);
                 this.setCapacityCar(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha de adquisicion del vehiculo (dd/MM/yyyy): " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha que adquirió el vehiculo (dd/MM/yyyy): " + Template.ANSI_RESET);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 this.setAddCarDate(formatter.parse(reader.next()));
 
                 // fix the bug
                 reader.nextLine();
 
-                System.out.println(Template.ANSI_PURPLE + "| Ingrese la descripcion de su mantenimiento: " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_PURPLE + "| Ingrese la descripcion de sus problemas con el vehiculo: " + Template.ANSI_RESET);
                 this.setMaintenance(reader.nextLine());
 
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha del mantenimiento adquirido (dd/MM/yyyy): " + Template.ANSI_RESET);
                 this.setMaintenanceDate(formatter.parse(reader.next()));
 
 
-                System.out.print(Template.ANSI_PURPLE + "| Ingrese el tipo de mantenimiento: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el tipo de mantenimiento (Preventivo o Correctivo): " + Template.ANSI_RESET);
                 this.setTypeMaintenance(reader.next());
 
-                if (typeMaintenance.equals("Correctivo")) {
+                if (typeMaintenance.equalsIgnoreCase("Correctivo")) {
                     System.out.print(Template.ANSI_CYAN + "| Ingrese el numero de respuestos que necesita: " + Template.ANSI_RESET);
                     int length = reader.nextInt();
 
@@ -476,7 +476,9 @@ public class Client {
         System.out.println(Template.ANSI_GREEN + "| Los datos han sido ingresados correctamente                  |" + Template.ANSI_RESET);
         System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
         System.out.println();
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
         System.out.println(Template.ANSI_GREEN + "| Seleccione los servicios que desea adquirir                 |" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
         this.selectServices(reader);
         this.calculateCost();
     }
@@ -488,22 +490,31 @@ public class Client {
         System.out.println(Template.ANSI_GREEN + "|---------------------------------------------------------------|" + Template.ANSI_RESET);
 
 
-        System.out.println(Template.ANSI_BLUE + "| Name: " + this.name + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Last name: " + this.lastName + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Nombre: " + this.name + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Apellido: " + this.lastName + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| DNI: " + this.DNI + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Mechanic: " + this.mechanic + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Plate: " + this.plate + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Maintenance: " + this.maintenance + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Capacity car: " + this.capacityCar + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Type maintenance: " + this.typeMaintenance + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Add car date: " + this.addCarDate + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Maintenance date: " + this.maintenanceDate + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| The services are: ");
+        System.out.println(Template.ANSI_BLUE + "| Mecanico: " + this.mechanic + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Placa: " + this.plate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Descripcion del mantenimiento: " + this.maintenance + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Capacidad del Vehiculo: " + this.capacityCar + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Tipo mantenimiento: " + this.typeMaintenance + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Adquisicion del Vehiculo: " + this.addCarDate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Mantenimiento previsto del  Vehiculo: " + this.maintenanceDate + Template.ANSI_RESET);
+        System.out.print(Template.ANSI_BLUE + "| Servicios Selecionados: ");
         for (String s : this.service) {
             System.out.print(s + " ");
         }
-        System.out.println(Template.ANSI_BLUE + "| Total services: " + this.totalServices + this.maintenanceDate + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Cost: " + this.cost + this.maintenanceDate + Template.ANSI_RESET);
+
+        if(this.typeMaintenance.equalsIgnoreCase("Correctivo")){
+            System.out.println(Template.ANSI_BLUE + "| Repuestos: " );
+            for (Replacement r : this.replacements) {
+                System.out.print("\t"+r.getName() + " y cuesta: " + r.getPrice() + "");
+            }
+            System.out.println(Template.ANSI_RESET);
+        }
+
+        System.out.println(Template.ANSI_BLUE + "| Total de servicios: " + this.totalServices + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Valor a pagar2: " + this.cost + this.maintenanceDate + Template.ANSI_RESET);
     }
 
 }
