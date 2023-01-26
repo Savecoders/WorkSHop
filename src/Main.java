@@ -36,7 +36,7 @@ public class Main {
                     break;
                 case "4":
                     System.out.print("Ingrese la DNI: ");
-                    String dni = reader.nextLine();
+                    String dni = reader.next();
                     try {
                         inspector.showSearchClientByDni(dni);
                     } catch (Exception e) {
