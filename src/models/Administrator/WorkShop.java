@@ -115,7 +115,7 @@ public class WorkShop {
         }
     }
 
-    public void showSearchClientCost(double cost) throws Exception {
+    public void showSearchClientCost(double cost){
 
         if(this.index == 0){
             System.out.println("No hay clientes registrados");
