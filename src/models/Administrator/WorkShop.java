@@ -55,28 +55,53 @@ public class WorkShop {
     }
 
     public void showClients() {
-        for (int i = 0; i < this.index; i++) {
-            System.out.println("------------------------------------");
-            System.out.println("|             Cliente  #" + (i + 1)   + "             |");
-            System.out.println("------------------------------------");
-            this.arrayClients[i].showData();
+
+        if(this.index == 0){
+            System.out.println("No hay clientes registrados");
+        }
+
+
+        try {
+            for (int i = 0; i < this.index; i++) {
+                System.out.println("------------------------------------");
+                System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                System.out.println("------------------------------------");
+                this.arrayClients[i].showData();
+            }
+        } catch (Exception e) {
+            System.out.println("No hay clientes registrados");
         }
     }
 
     public void showSearchClientByDni(String dni) {
-        for (int i = 0; i < this.index; i++) {
-            if (this.arrayClients[i].getDNI().equals(dni)) {
-                System.out.println("------------------------------------");
-                System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                System.out.println("------------------------------------");
 
-                this.arrayClients[i].showData();
+        if(this.index == 0){
+            System.out.println("No hay clientes registrados");
+        }
+
+
+        try {
+            for (int i = 0; i < this.index; i++) {
+                if (this.arrayClients[i].getDNI().equals(dni)) {
+                    System.out.println("------------------------------------");
+                    System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                    System.out.println("------------------------------------");
+
+                    this.arrayClients[i].showData();
+                }
             }
+        } catch (Exception e) {
+            System.out.println("No hay clientes registrados");
         }
     }
 
     public void showSearchClientPlate(String plate) {
 
+        if(this.index == 0){
+            System.out.println("No hay clientes registrados");
+        }
+
+        try{
         for (int i = 0; i < this.index; i++) {
             if (this.arrayClients[i].getPlate().equals(plate)) {
                 System.out.println("------------------------------------");
@@ -85,16 +110,28 @@ public class WorkShop {
                 this.arrayClients[i].showData();
             }
         }
+        }catch(Exception e){
+            System.out.println("No hay clientes registrados");
+        }
     }
 
     public void showSearchClientCost(double cost) {
-        for (int i = 0; i < this.index; i++) {
-            if (this.arrayClients[i].getCost() >= cost) {
-                System.out.println("------------------------------------");
-                System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                System.out.println("------------------------------------");
-                this.arrayClients[i].showData();
+
+        if(this.index == 0){
+            System.out.println("No hay clientes registrados");
+        }
+
+        try {
+            for (int i = 0; i < this.index; i++) {
+                if (this.arrayClients[i].getCost() >= cost) {
+                    System.out.println("------------------------------------");
+                    System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                    System.out.println("------------------------------------");
+                    this.arrayClients[i].showData();
+                }
             }
+        } catch (Exception e) {
+            System.out.println("No hay clientes registrados");
         }
     }
 

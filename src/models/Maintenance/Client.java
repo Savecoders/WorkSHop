@@ -1,6 +1,5 @@
 package models.Maintenance;
 // class of validations
-
 import assets.Template;
 import models.vehiculos.Replacement;
 import utils.Validation;

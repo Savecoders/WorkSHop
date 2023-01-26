@@ -41,12 +41,12 @@ public class Template {
     }
 
     public static void bye() {
-        System.out.println("=========================================================================");
+        System.out.println("==========================================================================");
         System.out.print("|                         ");
         System.out.print(Template.ANSI_BOLD + "Bye" + Template.ANSI_RESET);
         System.out.print("                       |\n");
         System.out.println("=========================================================================");
-        System.out.println();
+        System.exit(0);
     }
 
 
