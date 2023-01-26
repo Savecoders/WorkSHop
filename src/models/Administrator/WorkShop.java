@@ -77,31 +77,42 @@ public class WorkShop {
 
     public void showSearchClientByDni(String dni) throws Exception {
 
+        boolean include = false;
+
         if (this.index == 0) {
             System.out.println("No hay clientes registrados");
         } else if (dni == null) {
-            throw new Exception("El costo no puede ser nulo");
+            throw new Exception("El dni no puede ser nulo");
         } else if (!Validation.isNumeric(dni)) {
             throw new Exception("La Placa solo debe de tener numeros");
         } else {
 
             try {
                 for (int i = 0; i < this.index; i++) {
-                    if (this.arrayClients[i].getDNI().equals(dni)) {
+                    if (this.arrayClients[i].getDNI().equalsIgnoreCase(dni)) {
                         System.out.println("--------------------------------------");
                         System.out.println("|              Cliente  #" + (i + 1) + "             |");
                         System.out.println("--------------------------------------");
 
                         this.arrayClients[i].showData();
+                        include = true;
                     }
                 }
+
+                if (!include) {
+                    throw new Exception("No se encontro el cliente");
+                }
+
             } catch (Exception e) {
-                System.out.println("Ocurrio un error de conversion");
+                System.out.println("No se encontro el cliente");
             }
         }
     }
 
     public void showSearchClientPlate(String plate) throws Exception {
+
+        boolean include = false;
+
 
         if (this.index == 0) {
             throw new Exception("No hay clientes registrados");
@@ -111,22 +122,31 @@ public class WorkShop {
             throw new Exception("La Placa solo debe de tener numeros");
         } else {
             try {
+
                 for (int i = 0; i < this.index; i++) {
                     if (this.arrayClients[i].getPlate().equals(plate)) {
                         System.out.println("------------------------------------");
                         System.out.println("|             Cliente  #" + (i + 1) + "             |");
                         System.out.println("------------------------------------");
                         this.arrayClients[i].showData();
+                        include = true;
                     }
                 }
+
+                if (!include) {
+                    throw new Exception("No se encontro el cliente");
+                }
+
             } catch (Exception e) {
-                System.out.println("Ocurrio un error de conversion");
+                System.out.println("No se encontro el cliente");
             }
         }
 
     }
 
     public void showSearchClientCost(String cost) throws Exception {
+
+        boolean include = false;
 
         if (this.index == 0) {
             throw new Exception("No hay clientes registrados");
@@ -148,10 +168,16 @@ public class WorkShop {
                         System.out.println("|             Cliente  #" + (i + 1) + "             |");
                         System.out.println("-------------------------------------");
                         this.arrayClients[i].showData();
+                        include = true;
                     }
                 }
+
+                if (!include) {
+                    throw new Exception("No hay clientes con ese costo");
+                }
+
             } catch (Exception e) {
-                System.out.println("Ocurrio un error de conversion");
+                System.out.println("No se encontro el cliente");
             }
         }
     }
@@ -161,8 +187,10 @@ public class WorkShop {
         try {
             System.out.println("--------------------------------------------------");
             System.out.print("Ingrese el numero de clientes que desea: ");
-
             this.setIndex(reader.nextInt());
+            System.out.println("--------------------------------------------------");
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

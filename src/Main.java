@@ -76,13 +76,13 @@ public class Main {
             boolean haveERROR;
 
             do {
-                System.out.print("\nQuiere Continuar?  1 para Si 2 para No: ");
+                System.out.print("\nPara continuar y ver el menu digite 1 para Si 2 para No: ");
                 repeat = reader.next();
 
                 if (!repeat.equalsIgnoreCase("2") && !repeat.equalsIgnoreCase("1")) {
                     System.out.println(Template.ANSI_RED + "Opcion no valida asegurese de ingresar un numero del 1 al 2" + Template.ANSI_RESET);
                     haveERROR = true;
-                }else{
+                } else {
                     haveERROR = false;
                 }
             } while (haveERROR);

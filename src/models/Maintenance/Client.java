@@ -1,5 +1,6 @@
 package models.Maintenance;
 // class of validations
+
 import assets.Template;
 import models.vehiculos.Replacement;
 import utils.Validation;
@@ -87,9 +88,9 @@ public class Client {
 
     public void setName(String name) throws Exception {
 
-        if(name == null) {
+        if (name == null) {
             throw new Exception("El nombre no puede ser nulo");
-        }else if (Validation.lenName(name)) {
+        } else if (Validation.lenName(name)) {
             throw new Exception("El nombre debe tener más de 2 letras");
         }
 
@@ -107,9 +108,9 @@ public class Client {
 
     public void setLastName(String lastName) throws Exception {
         // valid name, more than 2 characters
-        if(name == null) {
+        if (name == null) {
             throw new Exception("El nombre no puede ser nulo");
-        }else if (Validation.lenName(lastName)) {
+        } else if (Validation.lenName(lastName)) {
             throw new Exception("El apellido debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
@@ -128,9 +129,10 @@ public class Client {
     public void setMechanic(String mechanic) throws Exception {
 
         // valid name, more than 3 characters
-        if(name == null) {
+        if (name == null) {
             throw new Exception("El nombre no puede ser nulo");
-        }if (Validation.lenName(mechanic)) {
+        }
+        if (Validation.lenName(mechanic)) {
             throw new Exception("El Mecánico debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
@@ -216,7 +218,7 @@ public class Client {
     public void setMaintenance(String maintenance) throws Exception {
         if (maintenance.length() <= 8) {
             throw new Exception("\n El mantenimiento debe tener más de 8 caracteres");
-        }else if(maintenance == null) {
+        } else if (maintenance == null) {
             throw new Exception("El mantenimiento no puede ser nulo");
         }
         this.maintenance = maintenance;
@@ -255,7 +257,7 @@ public class Client {
 
     public void setTotalServices(String totalServices) throws Exception {
         if (Validation.isNumeric(totalServices)) {
-            if (Integer.parseInt(totalServices) < 0 ||  Integer.parseInt(totalServices) > 6) {
+            if (Integer.parseInt(totalServices) < 0 || Integer.parseInt(totalServices) > 6) {
                 throw new Exception("Debe de ser un número entre 1 y 6");
             } else {
                 this.totalServices = Integer.parseInt(totalServices);
@@ -273,27 +275,27 @@ public class Client {
 
             if (this.service[possition] != null) {
                 throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
-            }else if(poss < 0 || poss > 5) {
+            } else if (poss < 0 || poss > 5) {
                 throw new Exception("El numero de servicio debe ser entre 1 y 6");
             } else {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }
 
-        } else if(index == null) {
+        } else if (index == null) {
             throw new Exception("El índice no puede ser nulo");
-        }else {
+        } else {
             throw new Exception("Index debe ser un número");
         }
     }
 
     public void presentServices() {
         System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
-        System.out.println("Servicios: ");
+        System.out.println("\tServicios: ");
         System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
 
         // present the services
         for (int i = 0; i < TOTAL_SERVICES.length; i++) {
-            System.out.println((i + 1) + ". " + TOTAL_SERVICES[i]);
+            System.out.println("\t" + (i + 1) + ". " + TOTAL_SERVICES[i]);
         }
 
     }
@@ -311,8 +313,8 @@ public class Client {
         do {
             currError = false;
             try {
-                System.out.println(Template.ANSI_BLUE + "| Segun los servicios mostrados. " + Template.ANSI_RESET);
-                System.out.print(Template.ANSI_BLUE + "| Cuantos servicios quisiera adquirir? : " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_BLUE + "# Segun los servicios mostrados. " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_BLUE + "# Cuantos servicios quisiera adquirir? : " + Template.ANSI_RESET);
                 this.setTotalServices(reader.next());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -441,16 +443,20 @@ public class Client {
                 this.setTypeMaintenance(reader.next());
 
                 if (typeMaintenance.equalsIgnoreCase("Correctivo")) {
-                    System.out.print(Template.ANSI_CYAN + "| Ingrese el numero de respuestos que necesita: " + Template.ANSI_RESET);
+                    System.out.print(Template.ANSI_PURPLE + "| Ingrese el numero de respuestos que necesita: " + Template.ANSI_RESET);
                     int length = reader.nextInt();
 
                     this.replacements = new Replacement[length];
 
+                    System.out.println(Template.ANSI_BLUE + "-----------------------------------------------------------------" + Template.ANSI_RESET);
+                    System.out.println(Template.ANSI_BOLD + "|                     Datos de los repuestos                    |" + Template.ANSI_RESET);
+                    System.out.println(Template.ANSI_BLUE + "-----------------------------------------------------------------" + Template.ANSI_RESET);
+
                     for (int i = 0; i < length; i++) {
-                        System.out.print(Template.ANSI_CYAN + "| Ingrese el nombre del repuesto: " + Template.ANSI_RESET);
+                        System.out.print(Template.ANSI_CYAN + "| Ingrese el nombre del repuesto " + (i + 1) + "#: " + Template.ANSI_RESET);
                         String name = reader.next();
 
-                        System.out.print(Template.ANSI_CYAN + "| Ingrese el precio del repuesto: " + Template.ANSI_RESET);
+                        System.out.print(Template.ANSI_CYAN + "| Ingrese el precio del repuesto " + (i + 1) + "#: " + Template.ANSI_RESET);
                         double price = reader.nextDouble();
 
                         this.replacements[i] = new Replacement(name, price);
@@ -472,13 +478,11 @@ public class Client {
             }
 
         } while (!isValid);
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_GREEN + "| Los datos han sido ingresados correctamente                  |" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "---------------------------------------------------------------" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "| Los datos del cliente han sido ingresados correctamente                  |" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "---------------------------------------------------------------" + Template.ANSI_RESET);
         System.out.println();
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_GREEN + "| Seleccione los servicios que desea adquirir                 |" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "# Seleccione los servicios que desea adquirir                 |" + Template.ANSI_RESET);
         this.selectServices(reader);
         this.calculateCost();
     }
@@ -504,17 +508,18 @@ public class Client {
         for (String s : this.service) {
             System.out.print(s + " ");
         }
-
-        if(this.typeMaintenance.equalsIgnoreCase("Correctivo")){
-            System.out.println(Template.ANSI_BLUE + "| Repuestos: " );
+        // separar los servicios
+        System.out.println();
+        if (this.typeMaintenance.equalsIgnoreCase("Correctivo")) {
+            System.out.println(Template.ANSI_BLUE + "| Repuestos: ");
             for (Replacement r : this.replacements) {
-                System.out.print("\t"+r.getName() + " y cuesta: " + r.getPrice() + "");
+                System.out.print(" " + r.getName() + " y cuesta: " + r.getPrice() + "");
             }
             System.out.println(Template.ANSI_RESET);
         }
 
         System.out.println(Template.ANSI_BLUE + "| Total de servicios: " + this.totalServices + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Valor a pagar2: " + this.cost + this.maintenanceDate + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Valor a pagar: " + this.cost  +Template.ANSI_RESET);
     }
 
 }
