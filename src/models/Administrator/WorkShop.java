@@ -2,6 +2,7 @@ package models.Administrator;
 
 import java.util.Scanner;
 
+import assets.Template;
 import models.Maintenance.Client;
 
 import utils.Validation;
@@ -36,11 +37,14 @@ public class WorkShop {
         return index;
     }
 
-    public void setIndex(int index) throws Exception {
-        if (index < 0) {
+    public void setIndex(String index) throws Exception {
+
+        int value = Integer.parseInt(index);
+
+        if (value < 0) {
             throw new Exception("Indice no puede ser negativo");
         } else {
-            this.index = index;
+            this.index = value;
         }
     }
 
@@ -184,16 +188,21 @@ public class WorkShop {
 
     public void inputClients(Scanner reader) {
 
-        try {
-            System.out.println("--------------------------------------------------");
-            System.out.print("Ingrese el numero de clientes que desea: ");
-            this.setIndex(reader.nextInt());
-            System.out.println("--------------------------------------------------");
+        boolean error;
 
+        do {
+            error = false;
+            try {
+                System.out.println("\n--------------------------------------------------");
+                System.out.print("Ingrese el numero de clientes que desea: ");
+                this.setIndex(reader.next());
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+            } catch (Exception e) {
+                System.out.print(Template.ANSI_RED + "* " + e.getMessage() + Template.ANSI_RESET);
+                error = true;
+            }
+
+        } while (error);
 
         // Initialize the array
         this.arrayClients = new Client[this.index];
@@ -206,7 +215,7 @@ public class WorkShop {
                 this.addClient(client, i);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(Template.ANSI_RED +  e.getMessage() + Template.ANSI_RESET);
         }
     }
 

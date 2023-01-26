@@ -279,22 +279,25 @@ public class Client {
 
     public void addNewService(String index, int possition) throws Exception {
 
+        if (index == null) {
+            throw new Exception("El index no puede ser nulo");
+        }
 
+        if (index.length() == 0) {
+            throw new Exception("El index no puede ser vacio");
+        }
         // verfica que el index sea un numero
-        try{
-
+        if (index.equals("1") || index.equals("2") || index.equals("3") || index.equals("4") || index.equals("5") || index.equals("6")) {
             int poss = Integer.parseInt(index) - 1;
             // verifica que el servicio no este seleccionado
             if (this.service[possition] != null) {
                 throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
-            } else if (poss < 0 || poss > 5) {
-                throw new Exception("El numero de servicio debe ser entre 1 y 6");
             } else {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }
 
-        } catch (Exception e) {
-            throw new Exception("Index debe ser un número");
+        } else {
+            throw new Exception("Debe de ser un numero y debe ser entre 1 y 6");
         }
     }
 
@@ -328,13 +331,14 @@ public class Client {
                 System.out.print(Template.ANSI_BLUE + "# Cuantos servicios quisiera adquirir? : " + Template.ANSI_RESET);
                 this.setTotalServices(reader.next());
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
                 currError = true;
             }
         } while (this.totalServices > TOTAL_SERVICES.length || this.totalServices < 0 || currError);
 
         this.service = new String[this.totalServices];
 
+        error = false;
         // ask for the services
         do {
             error = false;
@@ -346,15 +350,14 @@ public class Client {
 
             } catch (Exception e) {
                 error = true;
-                System.out.println(Template.ANSI_RED + "Error: " + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "* Error: " +  e.getMessage() + Template.ANSI_RESET);
             }
 
             if (!error) {
                 selectedServices++;
             }
 
-        } while (!error && selectedServices < this.totalServices);
+        } while (error && selectedServices < this.totalServices);
     }
 
     public double getCost() {
@@ -480,12 +483,10 @@ public class Client {
                 System.out.println(Template.ANSI_RED + "!!Ocurrio un error en la conversion, deberia convertir en un numero " + Template.ANSI_RESET);
                 isValid = false;
             } catch (ParseException e) {
-                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_RED + "EL formato de la fecha ingresada no es: dd/MM/yyyy" + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "\n* Error: " + "EL formato de la fecha ingresada no es: dd/MM/yyyy" + Template.ANSI_RESET);
                 isValid = false;
             } catch (Exception e) {
-                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_RED + "\n* Error: " + e.getMessage() + Template.ANSI_RESET);
                 isValid = false;
             }
 
