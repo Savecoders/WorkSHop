@@ -124,9 +124,9 @@ public class WorkShop {
         try {
             for (int i = 0; i < this.index; i++) {
                 if (this.arrayClients[i].getCost() >= cost) {
-                    System.out.println("------------------------------------");
+                    System.out.println("-------------------------------------");
                     System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                    System.out.println("------------------------------------");
+                    System.out.println("-------------------------------------");
                     this.arrayClients[i].showData();
                 }
             }

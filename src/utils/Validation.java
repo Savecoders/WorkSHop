@@ -15,7 +15,7 @@ public class Validation {
     }
 
     public static boolean lenName(String lastName) {
-        return lastName.length() < 2;
+        return lastName.length() <= 2;
     }
 
     public static boolean lenDNI(String DNI) {

@@ -87,7 +87,9 @@ public class Client {
 
     public void setName(String name) throws Exception {
 
-        if (Validation.lenName(name)) {
+        if(name == null) {
+            throw new Exception("El nombre no puede ser nulo");
+        }else if (Validation.lenName(name)) {
             throw new Exception("El nombre debe tener más de 2 letras");
         }
 
@@ -104,8 +106,10 @@ public class Client {
     }
 
     public void setLastName(String lastName) throws Exception {
-        // valid name, more than 3 characters
-        if (Validation.lenName(lastName)) {
+        // valid name, more than 2 characters
+        if(name == null) {
+            throw new Exception("El nombre no puede ser nulo");
+        }else if (Validation.lenName(lastName)) {
             throw new Exception("El apellido debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
@@ -124,7 +128,9 @@ public class Client {
     public void setMechanic(String mechanic) throws Exception {
 
         // valid name, more than 3 characters
-        if (Validation.lenName(mechanic)) {
+        if(name == null) {
+            throw new Exception("El nombre no puede ser nulo");
+        }if (Validation.lenName(mechanic)) {
             throw new Exception("El Mecánico debe tener más de 2 letras");
         } else {
             // valid name, no have numbers
@@ -146,11 +152,12 @@ public class Client {
         if (Validation.isLenPlate(plate)) {
             throw new Exception("La placa tiene que tener entre 7 a 8 Números");
         } else {
-            // valid plate, 3 uppercase letters and 3 numbers
+            // valid plate, 7 numbers
             if (Validation.isStrNumber(plate)) {
-                throw new Exception("Solo puede tener 7 Números");
-            } else {
                 this.plate = plate;
+            } else {
+                throw new Exception("Solo puede tener Números");
+
             }
         }
     }
@@ -160,15 +167,16 @@ public class Client {
     }
 
     public void setCapacityCar(String capacityCar) throws Exception {
+        // valid capacity, 1 number
         if (Validation.isStrNumber(capacityCar)) {
-            throw new Exception("Solo puede tener Números");
-        } else {
             int capacity = Integer.parseInt(capacityCar);
             if (capacity < 1) {
                 throw new Exception("La capacidad tiene que ser mayor a 1");
             } else {
                 this.capacityCar = capacity;
             }
+        } else {
+            throw new Exception("Solo puede tener Números");
         }
     }
 
@@ -244,20 +252,20 @@ public class Client {
     }
 
     public void setTotalServices(String totalServices) throws Exception {
-
         if (Validation.isStrNumber(totalServices)) {
-            throw new Exception("El total de servicios debe ser un número");
+            if (Integer.parseInt(totalServices) < 0 ||  Integer.parseInt(totalServices) > 6) {
+                throw new Exception("Debe de ser un número entre 1 y 6");
+            } else {
+                this.totalServices = Integer.parseInt(totalServices);
+            }
         } else {
-            this.totalServices = Integer.parseInt(totalServices);
+            throw new Exception("El total de servicios debe ser un número");
         }
-
     }
 
     public void addNewService(String index, int possition) throws Exception {
 
         if (Validation.isStrNumber(index)) {
-            throw new Exception("Index debe ser un número");
-        } else {
 
             int poss = Integer.parseInt(index) - 1;
 
@@ -266,12 +274,19 @@ public class Client {
             } else {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }
+
+        } else {
+
+            throw new Exception("Index debe ser un número");
         }
     }
 
     public void presentServices() {
+        System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
         System.out.println("Servicios: ");
+        System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
 
+        // present the services
         for (int i = 0; i < TOTAL_SERVICES.length; i++) {
             System.out.println((i + 1) + ". " + TOTAL_SERVICES[i]);
         }
@@ -292,7 +307,7 @@ public class Client {
             currError = false;
             try {
                 System.out.println(Template.ANSI_BLUE + "| Segun los servicios mostrados. " + Template.ANSI_RESET);
-                System.out.print(Template.ANSI_BLUE + "| Cuantos serivicios quisiera adquirir? : " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_BLUE + "| Cuantos servicios quisiera adquirir? : " + Template.ANSI_RESET);
                 this.setTotalServices(reader.next());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -379,6 +394,8 @@ public class Client {
             try {
                 isValid = true;
 
+
+                // Template.AnsiColors = color
                 System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
                 System.out.println(Template.ANSI_YELLOW + "|                       Datos del CLiente                         |" + Template.ANSI_RESET);
                 System.out.println(Template.ANSI_WHITE + "-------------------------------------------------------------" + Template.ANSI_RESET);
