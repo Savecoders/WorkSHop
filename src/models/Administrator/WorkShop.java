@@ -63,9 +63,9 @@ public class WorkShop {
 
         try {
             for (int i = 0; i < this.index; i++) {
-                System.out.println("------------------------------------");
-                System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                System.out.println("------------------------------------");
+                System.out.println("--------------------------------------");
+                System.out.println("|              Cliente  #" + (i + 1) + "             |");
+                System.out.println("--------------------------------------");
                 this.arrayClients[i].showData();
             }
         } catch (Exception e) {
@@ -83,9 +83,9 @@ public class WorkShop {
         try {
             for (int i = 0; i < this.index; i++) {
                 if (this.arrayClients[i].getDNI().equals(dni)) {
-                    System.out.println("------------------------------------");
-                    System.out.println("|             Cliente  #" + (i + 1) + "             |");
-                    System.out.println("------------------------------------");
+                    System.out.println("--------------------------------------");
+                    System.out.println("|              Cliente  #" + (i + 1) + "             |");
+                    System.out.println("--------------------------------------");
 
                     this.arrayClients[i].showData();
                 }
@@ -115,7 +115,7 @@ public class WorkShop {
         }
     }
 
-    public void showSearchClientCost(double cost) {
+    public void showSearchClientCost(double cost) throws Exception {
 
         if(this.index == 0){
             System.out.println("No hay clientes registrados");

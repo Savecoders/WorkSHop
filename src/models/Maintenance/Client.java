@@ -216,6 +216,8 @@ public class Client {
     public void setMaintenance(String maintenance) throws Exception {
         if (maintenance.length() <= 8) {
             throw new Exception("\n El mantenimiento debe tener más de 8 caracteres");
+        }else if(maintenance == null) {
+            throw new Exception("El mantenimiento no puede ser nulo");
         }
         this.maintenance = maintenance;
     }
@@ -271,12 +273,15 @@ public class Client {
 
             if (this.service[possition] != null) {
                 throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
+            }else if(poss < 0 || poss > 5) {
+                throw new Exception("El numero de servicio debe ser entre 1 y 6");
             } else {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }
 
-        } else {
-
+        } else if(index == null) {
+            throw new Exception("El índice no puede ser nulo");
+        }else {
             throw new Exception("Index debe ser un número");
         }
     }
@@ -478,9 +483,9 @@ public class Client {
 
     public void showData() {
 
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BOLD + "|                   Los datos del cliente son:                |" + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_GREEN + "|-------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "|---------------------------------------------------------------|" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BOLD + "|                    Los datos del cliente son:                 |" + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_GREEN + "|---------------------------------------------------------------|" + Template.ANSI_RESET);
 
 
         System.out.println(Template.ANSI_BLUE + "| Name: " + this.name + Template.ANSI_RESET);
