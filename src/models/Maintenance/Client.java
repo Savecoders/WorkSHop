@@ -22,6 +22,7 @@ public class Client {
     private Date addCarDate;
     private String maintenance;
     private Date maintenanceDate;
+    // Preventivo or Correctivo
     private String typeMaintenance;
     private String[] service;
 
@@ -33,7 +34,11 @@ public class Client {
 
     // replacement
 
+    // arreglo de repuestos
     private Replacement[] replacements;
+
+    // areglo que contenga los nombre
+    // precios
 
     // Constructors
 
@@ -75,7 +80,7 @@ public class Client {
                 this.DNI = DNI;
 
             } else {
-                throw new Exception("Solo Utilice Números. ");
+                throw new Exception("Please solo Utilice Números. :(");
             }
         } else {
             throw new Exception("DNI debe tener 10 Números");
@@ -107,9 +112,9 @@ public class Client {
     }
 
     public void setLastName(String lastName) throws Exception {
-        // valid name, more than 2 characters
         if (name == null) {
             throw new Exception("El nombre no puede ser nulo");
+            // valid name, more than 2 characters
         } else if (Validation.lenName(lastName)) {
             throw new Exception("El apellido debe tener más de 2 letras");
         } else {
@@ -128,7 +133,7 @@ public class Client {
 
     public void setMechanic(String mechanic) throws Exception {
 
-        // valid name, more than 3 characters
+        // valid name, more than 2 characters
         if (name == null) {
             throw new Exception("El nombre no puede ser nulo");
         }
@@ -151,7 +156,10 @@ public class Client {
 
     public void setPlate(String plate) throws Exception {
         // valid plate, 7 characters
-        if (Validation.isLenPlate(plate)) {
+
+        if (plate == null) {
+            throw new Exception("La placa no puede ser null");
+        } else if (Validation.isLenPlate(plate)) {
             throw new Exception("La placa tiene que tener entre 7 a 8 Números");
         } else {
             // valid plate, 7 numbers
@@ -191,6 +199,7 @@ public class Client {
 
         if (addCarDate == null) {
             throw new Exception("La fecha del coche no puede ser null");
+            // la fecha del auto no puede ser mayor a la de hoy
         } else if (addCarDate.getTime() < today.getTime()) {
             this.addCarDate = addCarDate;
         } else {
@@ -234,6 +243,7 @@ public class Client {
 
         if (maintenanceDate == null) {
             throw new Exception("La fecha del coche no puede ser null");
+            // la fecha del auto puede ser mayor a la de hoy pero no menor
         } else if (maintenanceDate.getTime() < today.getTime()) {
             throw new Exception("La fecha del mantenimiento debe ser posterior a la de hoy");
         } else {
@@ -269,10 +279,12 @@ public class Client {
 
     public void addNewService(String index, int possition) throws Exception {
 
-        if (Validation.isNumeric(index)) {
+
+        // verfica que el index sea un numero
+        try{
 
             int poss = Integer.parseInt(index) - 1;
-
+            // verifica que el servicio no este seleccionado
             if (this.service[possition] != null) {
                 throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
             } else if (poss < 0 || poss > 5) {
@@ -281,14 +293,13 @@ public class Client {
                 this.service[possition] = TOTAL_SERVICES[poss];
             }
 
-        } else if (index == null) {
-            throw new Exception("El índice no puede ser nulo");
-        } else {
+        } catch (Exception e) {
             throw new Exception("Index debe ser un número");
         }
     }
 
     public void presentServices() {
+        // {"Lavado", "Alineacion", "Engranaje", "Limpieza", "Reparacion", "Cambio de parabrizas"};
         System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
         System.out.println("\tServicios: ");
         System.out.println(Template.ANSI_BLUE + "------------------------------------" + Template.ANSI_RESET);
@@ -334,9 +345,9 @@ public class Client {
                 addNewService(reader.next(), selectedServices);
 
             } catch (Exception e) {
-                System.out.println(Template.ANSI_RED + "\nError: " + Template.ANSI_RESET);
-                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
                 error = true;
+                System.out.println(Template.ANSI_RED + "Error: " + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
             }
 
             if (!error) {
@@ -356,28 +367,29 @@ public class Client {
         for (String servi : this.service) {
             switch (servi) {
                 case "Lavado":
-                    count += 10;
-                    break;
-                case "Alineacion":
-                    count += 20;
-                    break;
-                case "Engranaje":
-                    count += 30;
-                    break;
-                case "Limpieza":
-                    count += 40;
-                    break;
-                case "Reparacion":
                     count += 50;
                     break;
-                case "Cambio de parabrizas":
+                case "Alineacion":
                     count += 60;
+                    break;
+                case "Engranaje":
+                    count += 70;
+                    break;
+                case "Limpieza":
+                    count += 80;
+                    break;
+                case "Reparacion":
+                    count += 90;
+                    break;
+                case "Cambio de parabrizas":
+                    count += 100;
                     break;
             }
 
         }
 
         if (this.replacements != null) {
+            // add the price of the replacements
             for (Replacement replace : replacements) {
                 count += replace.getPrice();
             }
@@ -407,10 +419,10 @@ public class Client {
                 System.out.println(Template.ANSI_YELLOW + "|                         Datos del Cliente                     |" + Template.ANSI_RESET);
                 System.out.println(Template.ANSI_WHITE + "-----------------------------------------------------------------" + Template.ANSI_RESET);
 
-                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Nombre del cliente:  " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Un Nombre del cliente:  " + Template.ANSI_RESET);
                 this.setName(reader.next());
 
-                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Apellido del cliente: " + Template.ANSI_RESET);
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el Un Apellido del cliente: " + Template.ANSI_RESET);
                 this.setLastName(reader.next());
 
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese su DNI: " + Template.ANSI_RESET);
@@ -505,6 +517,8 @@ public class Client {
         System.out.println(Template.ANSI_BLUE + "| Adquisicion del Vehiculo: " + this.addCarDate + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Mantenimiento previsto del  Vehiculo: " + this.maintenanceDate + Template.ANSI_RESET);
         System.out.print(Template.ANSI_BLUE + "| Servicios Selecionados: ");
+
+        // for each
         for (String s : this.service) {
             System.out.print(s + " ");
         }
@@ -519,7 +533,7 @@ public class Client {
         }
 
         System.out.println(Template.ANSI_BLUE + "| Total de servicios: " + this.totalServices + Template.ANSI_RESET);
-        System.out.println(Template.ANSI_BLUE + "| Valor a pagar: " + this.cost  +Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| Valor a pagar: " + this.cost + Template.ANSI_RESET);
     }
 
 }

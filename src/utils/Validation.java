@@ -3,6 +3,7 @@ package utils;
 public class Validation {
     public static boolean isName(String name) {
         // validate if the string no contains numbers
+        // caracteres especiales
         // using for loop
 
         for (int i = 0; i < name.length(); i++) {

@@ -84,7 +84,7 @@ public class WorkShop {
         } else if (dni == null) {
             throw new Exception("El dni no puede ser nulo");
         } else if (!Validation.isNumeric(dni)) {
-            throw new Exception("La Placa solo debe de tener numeros");
+            throw new Exception("La Dni solo debe de tener numeros");
         } else {
 
             try {
@@ -195,6 +195,7 @@ public class WorkShop {
             System.out.println(e.getMessage());
         }
 
+        // Initialize the array
         this.arrayClients = new Client[this.index];
 
         try {

@@ -58,6 +58,7 @@ public class Template {
         System.out.print(Template.ANSI_BOLD + "Bye" + Template.ANSI_RESET);
         System.out.print("                       |\n");
         System.out.println("=========================================================================");
+        // cierra el programa
         System.exit(0);
     }
 
