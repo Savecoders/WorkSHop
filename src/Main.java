@@ -56,6 +56,16 @@ public class Main {
                     break;
 
                 case "6":
+                    System.out.print("Ingrese la marca a buscar: ");
+                    String brand = reader.next();
+                    try {
+                        inspector.showSearchClientByBrand(brand);
+                    } catch (Exception e) {
+                        System.out.println(Template.ANSI_RED + e.getMessage() + Template.ANSI_RESET);
+                    }
+                    break;
+
+                case "7":
                     System.out.print("Enter the cost: ");
                     String cost = reader.next();
                     try {
@@ -65,12 +75,13 @@ public class Main {
                     }
                     break;
 
-                case "7":
+                case "8":
                     System.out.println("Exit");
                     Template.bye();
                     break;
+
                 default:
-                    System.out.println(Template.ANSI_RED + "Opcion no valida asegurese de ingresar un numero del 1 al 7" + Template.ANSI_RESET);
+                    System.out.println(Template.ANSI_RED + "Opcion no valida asegurese de ingresar un numero del 1 al 8" + Template.ANSI_RESET);
                     break;
             }
 

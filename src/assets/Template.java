@@ -29,8 +29,9 @@ public class Template {
         System.out.println("|  3. Mostrar Clientes registrados               |");
         System.out.println("|  4. Search Clientes por DNI                    |");
         System.out.println("|  5. Search Clientes por Placa de vehiculo      |");
-        System.out.println("|  6. Search Clientes por Costo de mantenimiento |");
-        System.out.println("|  7. Exit                                       |");
+        System.out.println("|  6. Search Clientes por Marca de vehiculo      |");
+        System.out.println("|  7. Search Clientes por Costo de mantenimiento |");
+        System.out.println("|  8. Exit                                       |");
         System.out.println("--------------------------------------------------"+ Template.ANSI_RESET);
     }
 

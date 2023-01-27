@@ -148,6 +148,38 @@ public class WorkShop {
 
     }
 
+    public void showSearchClientByBrand(String brand) throws Exception {
+
+        boolean include = false;
+
+        if (this.index == 0) {
+            throw new Exception("No hay clientes registrados");
+        } else if (brand == null) {
+            throw new Exception("La marca no puede ser nula");
+        } else {
+            try {
+
+                for (int i = 0; i < this.index; i++) {
+                    if (this.arrayClients[i].getBrand().equalsIgnoreCase(brand)) {
+                        System.out.println("------------------------------------");
+                        System.out.println("|             Cliente  #" + (i + 1) + "             |");
+                        System.out.println("------------------------------------");
+                        this.arrayClients[i].showData();
+                        include = true;
+                    }
+                }
+
+                if (!include) {
+                    throw new Exception("No se encontro el cliente");
+                }
+
+            } catch (Exception e) {
+                System.out.println("No se encontro el cliente");
+            }
+        }
+    }
+
+
     public void showSearchClientCost(String cost) throws Exception {
 
         boolean include = false;

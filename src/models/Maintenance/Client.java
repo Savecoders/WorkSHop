@@ -17,9 +17,14 @@ public class Client {
     private String name;
     private String lastName;
     private String mechanic;
+
+    // Vehiculo
     private String plate;
+    private String brand;
     private int capacityCar;
     private Date addCarDate;
+
+    // Mantenimiento
     private String maintenance;
     private Date maintenanceDate;
     // Preventivo or Correctivo
@@ -68,6 +73,8 @@ public class Client {
         return this.id;
     }
 
+
+    // DNI validation
     public String getDNI() {
         return DNI;
     }
@@ -87,6 +94,7 @@ public class Client {
         }
     }
 
+    // Name validation
     public String getName() {
         return name;
     }
@@ -107,6 +115,8 @@ public class Client {
         }
     }
 
+
+    // Last Name validation
     public String getLastName() {
         return lastName;
     }
@@ -127,6 +137,7 @@ public class Client {
         }
     }
 
+    // Mechanic name validation
     public String getMechanic() {
         return mechanic;
     }
@@ -150,6 +161,7 @@ public class Client {
 
     }
 
+    // Plate validation
     public String getPlate() {
         return plate;
     }
@@ -168,6 +180,27 @@ public class Client {
             } else {
                 throw new Exception("Solo puede tener Números");
 
+            }
+        }
+    }
+
+    // Brand validation
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) throws Exception {
+        if (brand == null) {
+            throw new Exception("La marca no puede ser null");
+        } else if (Validation.lenName(brand)) {
+            throw new Exception("La marca debe tener más de 2 letras");
+        } else {
+            // valid name, no have numbers
+            if (Validation.isName(brand)) {
+                this.brand = brand;
+            } else {
+                throw new Exception("La marca debe tener solo letras :(");
             }
         }
     }
@@ -288,17 +321,22 @@ public class Client {
         }
         // verfica que el index sea un numero
         if (index.equals("1") || index.equals("2") || index.equals("3") || index.equals("4") || index.equals("5") || index.equals("6")) {
-            int poss = Integer.parseInt(index) - 1;
+            int possIndex = Integer.parseInt(index) - 1;
             // verifica que el servicio no este seleccionado
-            if (this.service[possition] != null) {
-                throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
-            } else {
-                this.service[possition] = TOTAL_SERVICES[poss];
+
+            for (String service : this.service) {
+                if (service!=null && service.equalsIgnoreCase(TOTAL_SERVICES[possIndex])) {
+                    throw new Exception("Servicio ya seleccionado por favor seleccione otro :) ");
+                }
             }
+
+            // agrega el servicio
+            this.service[possition] = TOTAL_SERVICES[possIndex];
 
         } else {
             throw new Exception("Debe de ser un numero y debe ser entre 1 y 6");
         }
+
     }
 
     public void presentServices() {
@@ -342,22 +380,23 @@ public class Client {
         // ask for the services
         do {
             error = false;
-            try {
 
+            try {
                 System.out.println(Template.ANSI_BLUE + "| Segun los servicios mostrados. " + (selectedServices + 1) + "/" + (this.totalServices) + Template.ANSI_RESET);
                 System.out.print(Template.ANSI_CYAN + "Ingrese el numero del servicio que desea agregar: " + Template.ANSI_RESET);
                 addNewService(reader.next(), selectedServices);
 
             } catch (Exception e) {
                 error = true;
-                System.out.println(Template.ANSI_RED + "* Error: " +  e.getMessage() + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "* Error: " + e.getMessage() + Template.ANSI_RESET);
+
             }
 
             if (!error) {
                 selectedServices++;
             }
 
-        } while (error && selectedServices < this.totalServices);
+        } while (error || selectedServices < this.totalServices);
     }
 
     public double getCost() {
@@ -440,6 +479,9 @@ public class Client {
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese la capacidad maxima de pasajeros del vehiculo: " + Template.ANSI_RESET);
                 this.setCapacityCar(reader.next());
 
+                System.out.print(Template.ANSI_PURPLE + "| Ingrese el nombre de la marca del vehiculo: " + Template.ANSI_RESET);
+                this.setBrand(reader.next());
+
                 System.out.print(Template.ANSI_PURPLE + "| Ingrese la fecha que adquirió el vehiculo (dd/MM/yyyy): " + Template.ANSI_RESET);
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 this.setAddCarDate(formatter.parse(reader.next()));
@@ -486,7 +528,7 @@ public class Client {
                 System.out.println(Template.ANSI_RED + "\n* Error: " + "EL formato de la fecha ingresada no es: dd/MM/yyyy" + Template.ANSI_RESET);
                 isValid = false;
             } catch (Exception e) {
-                System.out.print(Template.ANSI_RED + "\n* Error: " + e.getMessage() + Template.ANSI_RESET);
+                System.out.println(Template.ANSI_RED + "\n* Error: " + e.getMessage() + "\n" + Template.ANSI_RESET);
                 isValid = false;
             }
 
@@ -514,6 +556,7 @@ public class Client {
         System.out.println(Template.ANSI_BLUE + "| Placa: " + this.plate + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Descripcion del mantenimiento: " + this.maintenance + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Capacidad del Vehiculo: " + this.capacityCar + Template.ANSI_RESET);
+        System.out.println(Template.ANSI_BLUE + "| La marca del Vehiculo: " + this.brand + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Tipo mantenimiento: " + this.typeMaintenance + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Adquisicion del Vehiculo: " + this.addCarDate + Template.ANSI_RESET);
         System.out.println(Template.ANSI_BLUE + "| Mantenimiento previsto del  Vehiculo: " + this.maintenanceDate + Template.ANSI_RESET);
